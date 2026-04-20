@@ -105,6 +105,7 @@
             background: var(--accent);
             width: 0%;
             z-index: 160;
+            transition: width 0.1s ease-out;
         }
 
         .modal-content {
@@ -167,6 +168,23 @@
             transition: 0.3s;
         }
 
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(128,128,128,0.3);
+            transition: 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+        }
+
         @media (max-width: 768px) {
             .modal-content { padding: 25px; margin: 0; border-radius: 0; min-height: 100vh; }
             #menuOverlay a { font-size: 2rem; }
@@ -185,10 +203,13 @@
                 INO<span class="text-cyan-400">TEK</span>
             </div>
         </div>
-        <div class="hidden md:flex space-x-8 text-[10px] font-bold uppercase tracking-[0.3em] items-center">
+        <div class="hidden md:flex space-x-6 text-[10px] font-bold uppercase tracking-[0.3em] items-center">
             <a href="#beranda" class="hover:text-cyan-400 transition-colors opacity-70 hover:opacity-100">Beranda</a>
             <a href="#feature" class="hover:text-cyan-400 transition-colors opacity-70 hover:opacity-100">Feature</a>
             <a href="#hubungi" class="hover:text-cyan-400 transition-colors opacity-70 hover:opacity-100">Kontak</a>
+            <button onclick="showBookmarks()" class="relative opacity-70 hover:opacity-100 hover:text-cyan-400">
+                Bookmarks <span id="bookmarkCount" class="bg-cyan-400 text-black px-1.5 rounded-full ml-1 text-[8px]">0</span>
+            </button>
             <div onclick="toggleTheme()" class="btn-theme" title="Ganti Tema">
                 <i id="themeIcon" class="fa-solid fa-moon"></i>
             </div>
@@ -253,54 +274,86 @@
     <!-- Feature Utama -->
     <section id="feature" class="py-32 px-6 md:px-20">
         <div class="max-w-7xl mx-auto">
-            <div class="reveal text-center mb-24">
+            <div class="reveal text-center mb-16">
                 <h2 class="text-5xl md:text-7xl font-heading font-bold mb-6">Laporan Utama</h2>
-                <div class="w-24 h-1 bg-cyan-400 mx-auto"></div>
+                <div class="w-24 h-1 bg-cyan-400 mx-auto mb-10"></div>
+                
+                <!-- Filter Feature -->
+                <div class="flex flex-wrap justify-center gap-4 mb-20">
+                    <button onclick="filterArticles('all')" class="filter-btn active" id="btn-all">Semua</button>
+                    <button onclick="filterArticles('tekno')" class="filter-btn" id="btn-tekno">Teknologi</button>
+                    <button onclick="filterArticles('mental')" class="filter-btn" id="btn-mental">Kesehatan</button>
+                    <button onclick="filterArticles('etika')" class="filter-btn" id="btn-etika">Etika</button>
+                </div>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                <div class="reveal group cursor-pointer" onclick="openArticle('ai')">
-                    <div class="rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-zinc-900 border border-white/10 mb-8 relative shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-50">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10"></div>
-                        <div class="absolute bottom-10 left-10 z-20">
-                            <span class="text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Teknologi</span>
-                            <h3 class="text-3xl font-heading font-bold text-white">Paradoks AI</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12" id="articleContainer">
+                <!-- AI Article -->
+                <div class="reveal article-card" data-category="tekno">
+                    <div class="group cursor-pointer" onclick="openArticle('ai')">
+                        <div class="rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-zinc-900 border border-white/10 mb-8 relative shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-50">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10"></div>
+                            <div class="absolute bottom-10 left-10 z-20">
+                                <span class="text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">5 Menit Baca</span>
+                                <h3 class="text-3xl font-heading font-bold text-white">Paradoks AI</h3>
+                            </div>
                         </div>
+                        <p class="opacity-50 leading-relaxed mb-6">Mengkaji efisiensi instan AI versus risiko degradasi kemampuan analisis kritis mahasiswa.</p>
                     </div>
-                    <p class="opacity-50 leading-relaxed mb-6">Mengkaji efisiensi instan AI versus risiko degradasi kemampuan analisis kritis mahasiswa.</p>
-                    <div class="font-bold text-xs uppercase tracking-widest flex items-center gap-2 group-hover:text-cyan-400 transition-colors">
-                        Baca Artikel <i class="fa-solid fa-arrow-right"></i>
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:text-cyan-400 transition-colors cursor-pointer" onclick="openArticle('ai')">
+                            Baca Artikel <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                        <button onclick="toggleBookmark('ai')" id="bookmark-ai" class="text-xl opacity-40 hover:opacity-100 transition-opacity">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
                     </div>
                 </div>
 
-                <div class="reveal group cursor-pointer" onclick="openArticle('fomo')" style="transition-delay: 100ms;">
-                    <div class="rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-zinc-900 border border-white/10 mb-8 relative shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-50">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10"></div>
-                        <div class="absolute bottom-10 left-10 z-20">
-                            <span class="text-indigo-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Kesehatan Jiwa</span>
-                            <h3 class="text-3xl font-heading font-bold text-white">Navigasi FOMO</h3>
+                <!-- FOMO Article -->
+                <div class="reveal article-card" data-category="mental" style="transition-delay: 100ms;">
+                    <div class="group cursor-pointer" onclick="openArticle('fomo')">
+                        <div class="rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-zinc-900 border border-white/10 mb-8 relative shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-50">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10"></div>
+                            <div class="absolute bottom-10 left-10 z-20">
+                                <span class="text-indigo-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">4 Menit Baca</span>
+                                <h3 class="text-3xl font-heading font-bold text-white">Navigasi FOMO</h3>
+                            </div>
                         </div>
+                        <p class="opacity-50 leading-relaxed mb-6">Seni mengelola kecemasan di dunia yang menuntut kita untuk selalu terhubung secara digital.</p>
                     </div>
-                    <p class="opacity-50 leading-relaxed mb-6">Seni mengelola kecemasan di dunia yang menuntut kita untuk selalu terhubung secara digital.</p>
-                    <div class="font-bold text-xs uppercase tracking-widest flex items-center gap-2 group-hover:text-indigo-400 transition-colors">
-                        Baca Artikel <i class="fa-solid fa-arrow-right"></i>
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:text-indigo-400 transition-colors cursor-pointer" onclick="openArticle('fomo')">
+                            Baca Artikel <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                        <button onclick="toggleBookmark('fomo')" id="bookmark-fomo" class="text-xl opacity-40 hover:opacity-100 transition-opacity">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
                     </div>
                 </div>
 
-                <div class="reveal group cursor-pointer" onclick="openArticle('etika')" style="transition-delay: 200ms;">
-                    <div class="rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-zinc-900 border border-white/10 mb-8 relative shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-50">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10"></div>
-                        <div class="absolute bottom-10 left-10 z-20">
-                            <span class="text-emerald-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Siber</span>
-                            <h3 class="text-3xl font-heading font-bold text-white">Etika & Privasi</h3>
+                <!-- Ethics Article -->
+                <div class="reveal article-card" data-category="etika" style="transition-delay: 200ms;">
+                    <div class="group cursor-pointer" onclick="openArticle('etika')">
+                        <div class="rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-zinc-900 border border-white/10 mb-8 relative shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-50">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10"></div>
+                            <div class="absolute bottom-10 left-10 z-20">
+                                <span class="text-emerald-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">6 Menit Baca</span>
+                                <h3 class="text-3xl font-heading font-bold text-white">Etika & Privasi</h3>
+                            </div>
                         </div>
+                        <p class="opacity-50 leading-relaxed mb-6">Membangun kedaulatan data pribadi di tengah ekosistem internet yang tanpa batas.</p>
                     </div>
-                    <p class="opacity-50 leading-relaxed mb-6">Membangun kedaulatan data pribadi di tengah ekosistem internet yang tanpa batas.</p>
-                    <div class="font-bold text-xs uppercase tracking-widest flex items-center gap-2 group-hover:text-emerald-400 transition-colors">
-                        Baca Artikel <i class="fa-solid fa-arrow-right"></i>
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:text-emerald-400 transition-colors cursor-pointer" onclick="openArticle('etika')">
+                            Baca Artikel <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                        <button onclick="toggleBookmark('etika')" id="bookmark-etika" class="text-xl opacity-40 hover:opacity-100 transition-opacity">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -369,118 +422,247 @@
     <!-- Modal Portal -->
     <div id="articleModal">
         <div class="modal-content">
-            <button onclick="closeArticle()" class="mb-12 opacity-50 hover:opacity-100 flex items-center gap-2 uppercase text-xs font-bold tracking-widest transition-opacity">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Majalah
-            </button>
+            <div class="flex justify-between items-center mb-12">
+                <button onclick="closeArticle()" class="opacity-50 hover:opacity-100 flex items-center gap-2 uppercase text-xs font-bold tracking-widest transition-opacity">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+                <div class="flex gap-4">
+                    <button onclick="shareArticle()" class="opacity-50 hover:opacity-100 text-lg"><i class="fa-solid fa-share-nodes"></i></button>
+                    <button onclick="toggleBookmarkFromModal()" id="modalBookmarkBtn" class="opacity-50 hover:opacity-100 text-lg"><i class="fa-regular fa-bookmark"></i></button>
+                </div>
+            </div>
             <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Bookmark Modal -->
+    <div id="bookmarkModal" class="fixed inset-0 z-[200] hidden bg-black/90 flex items-center justify-center p-6 backdrop-blur-md">
+        <div class="glass max-w-lg w-full p-10 rounded-[3rem] relative">
+            <button onclick="closeBookmarks()" class="absolute top-6 right-6 text-2xl opacity-50 hover:opacity-100"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="text-3xl font-heading font-bold mb-8">Koleksi Tersimpan</h2>
+            <div id="bookmarkList" class="space-y-4">
+                <p class="opacity-40 italic">Belum ada artikel yang disimpan.</p>
+            </div>
         </div>
     </div>
 
     <script>
         const articles = {
-            ai: `
-                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200" class="w-full rounded-3xl mb-12 shadow-2xl">
-                <h1 class="text-5xl font-heading font-bold mb-10 leading-tight">Paradoks Kecerdasan Buatan: Antara Efisiensi dan Kemandirian Berpikir</h1>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    <div class="stat-card">
-                        <div class="text-3xl font-bold text-cyan-400 mb-1">92%</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Peningkatan Efisiensi</p>
-                    </div>
-                    <div class="stat-card" style="border-left-color: #f87171;">
-                        <div class="text-3xl font-bold text-red-400 mb-1">65%</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Penurunan Fokus</p>
-                    </div>
-                    <div class="stat-card" style="border-left-color: #fbbf24;">
-                        <div class="text-3xl font-bold text-amber-400 mb-1">High</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Risiko Plagiarisme</p>
-                    </div>
-                    <div class="stat-card" style="border-left-color: #10b981;">
-                        <div class="text-3xl font-bold text-emerald-400 mb-1">2026</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Era Akselerasi</p>
-                    </div>
-                </div>
-
-                <div class="max-w-none opacity-80 leading-loose space-y-8 text-lg">
-                    <p class="drop-cap">Dalam era transformasi 2026, Kecerdasan Buatan (KB) bukan lagi fiksi ilmiah, melainkan rekan kerja harian mahasiswa. Namun, kemudahan yang ditawarkannya memunculkan pertanyaan mendasar bagi akademisi: <strong>Apakah kita sedang mempertajam kecerdasan kita, atau justru membiarkannya tumpul?</strong></p>
+            ai: {
+                title: "Paradoks AI",
+                category: "tekno",
+                content: `
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200" class="w-full rounded-3xl mb-12 shadow-2xl">
+                    <h1 class="text-5xl font-heading font-bold mb-10 leading-tight">Paradoks Kecerdasan Buatan: Antara Efisiensi dan Kemandirian Berpikir</h1>
                     
-                    <span class="article-section-title">Degradasi Kemampuan Analisis</span>
-                    <p>Fenomena 'Prompt Engineering' seringkali menggantikan proses riset mendalam. Mahasiswa kini mampu menghasilkan makalah ribuan kata dalam hitungan detik. Namun, tanpa audit kritis, kita berisiko menjadi kurator informasi yang tidak kita pahami sendiri. Ini adalah "Black Box Intellectualism" — di mana input dimasukkan dan output dihasilkan tanpa kita mengerti proses logikanya. Penelitian internal menunjukkan bahwa ketergantungan berlebih dapat menurunkan skor orisinalitas sebesar 40% jika tidak diiringi verifikasi literatur fisik.</p>
-                    
-                    <div class="quote-box">
-                        <p class="italic text-xl mb-4">"Teknologi seharusnya memperluas jangkauan pikiran kita, bukan menggantikannya. Jika kita berhenti bertanya 'mengapa' dan hanya menerima 'apa', kita telah kalah dari mesin."</p>
-                        <p class="text-cyan-400 font-bold uppercase text-xs tracking-widest">— Redaksi INOTEK</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                        <div class="stat-card">
+                            <div class="text-3xl font-bold text-cyan-400 mb-1">92%</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Peningkatan Efisiensi</p>
+                        </div>
+                        <div class="stat-card" style="border-left-color: #f87171;">
+                            <div class="text-3xl font-bold text-red-400 mb-1">65%</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Penurunan Fokus</p>
+                        </div>
+                        <div class="stat-card" style="border-left-color: #fbbf24;">
+                            <div class="text-3xl font-bold text-amber-400 mb-1">High</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Risiko Plagiarisme</p>
+                        </div>
+                        <div class="stat-card" style="border-left-color: #10b981;">
+                            <div class="text-3xl font-bold text-emerald-400 mb-1">2026</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Era Akselerasi</p>
+                        </div>
                     </div>
 
-                    <span class="article-section-title">Membangun Masa Depan Humanis</span>
-                    <p>Untuk tetap relevan, mahasiswa harus memposisikan AI sebagai katalisator, bukan substitusi. Gunakan AI untuk memetakan struktur dasar atau mencari referensi awal, namun pastikan sintesis ide dan interpretasi makna tetap berasal dari pemikiran manusia yang autentik. Regulasi akademik yang ketat harus diimbangi dengan integritas moral digital agar kita tidak sekadar menjadi operator algoritma.</p>
-
-                    <span class="article-section-title">Kesimpulan Kontra-Intuisi</span>
-                    <p>Paradoksnya, semakin canggih mesin di sekitar kita, semakin berharga pula kemampuan "berpikir lambat" manusia—kemampuan untuk merenung, merasa ragu, dan membangun empati. Di masa depan, perbedaan antara pemimpin dan pengikut mungkin hanya terletak pada siapa yang masih memegang kendali atas rasa ingin tahunya sendiri.</p>
-                </div>
-            `,
-            fomo: `
-                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200" class="w-full rounded-3xl mb-12 shadow-2xl">
-                <h1 class="text-5xl font-heading font-bold mb-10 leading-tight">Navigasi FOMO: Pulih di Tengah Badai Informasi Digital</h1>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    <div class="stat-card" style="border-left-color: #818cf8;">
-                        <div class="text-3xl font-bold text-indigo-400 mb-1">78%</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Tingkat Stres Digital</p>
+                    <div class="max-w-none opacity-80 leading-loose space-y-8 text-lg">
+                        <p class="drop-cap">Dalam era transformasi 2026, Kecerdasan Buatan (KB) bukan lagi fiksi ilmiah, melainkan rekan kerja harian mahasiswa. Namun, kemudahan yang ditawarkannya memunculkan pertanyaan mendasar bagi akademisi: <strong>Apakah kita sedang mempertajam kecerdasan kita, atau justru membiarkannya tumpul?</strong></p>
+                        
+                        <span class="article-section-title">Degradasi Kemampuan Analisis</span>
+                        <p>Fenomena 'Prompt Engineering' seringkali menggantikan proses riset mendalam. Mahasiswa kini mampu menghasilkan makalah ribuan kata dalam hitungan detik. Namun, tanpa audit kritis, kita berisiko menjadi kurator informasi yang tidak kita pahami sendiri. Ini adalah "Black Box Intellectualism" — di mana input dimasukkan dan output dihasilkan tanpa kita mengerti proses logikanya.</p>
+                        
+                        <div class="quote-box">
+                            <p class="italic text-xl mb-4">"Teknologi seharusnya memperluas jangkauan pikiran kita, bukan menggantikannya. Jika kita berhenti bertanya 'mengapa' dan hanya menerima 'apa', kita telah kalah dari mesin."</p>
+                            <p class="text-cyan-400 font-bold uppercase text-xs tracking-widest">— Redaksi INOTEK</p>
+                        </div>
+                        <p>Untuk tetap relevan, mahasiswa harus memposisikan AI sebagai katalisator, bukan substitusi. Gunakan AI untuk memetakan struktur dasar atau mencari referensi awal, namun pastikan sintesis ide tetap berasal dari pemikiran manusia.</p>
                     </div>
-                    <div class="stat-card" style="border-left-color: #fbbf24;">
-                        <div class="text-3xl font-bold text-amber-400 mb-1">3 Jam</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Waktu Layar Rata-rata</p>
-                    </div>
-                    <div class="stat-card" style="border-left-color: #f472b6;">
-                        <div class="text-3xl font-bold text-pink-400 mb-1">High</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Tekanan Sosial</p>
-                    </div>
-                    <div class="stat-card" style="border-left-color: #34d399;">
-                        <div class="text-3xl font-bold text-emerald-400 mb-1">Active</div>
-                        <p class="text-[10px] opacity-50 uppercase font-bold">Social Anxiety</p>
-                    </div>
-                </div>
-
-                <div class="opacity-80 leading-loose space-y-8 text-lg">
-                    <p class="drop-cap">Fear of Missing Out (FOMO) telah berkembang menjadi pandemi psikologis di kalangan Gen Z dan Alpha. Di dunia yang selalu menyala 24/7, tertinggal satu tren saja bisa terasa seperti kegagalan sosial yang fatal bagi seorang mahasiswa. Tekanan ini nyata, dan dampaknya seringkali tidak terlihat di permukaan.</p>
+                `
+            },
+            fomo: {
+                title: "Navigasi FOMO",
+                category: "mental",
+                content: `
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200" class="w-full rounded-3xl mb-12 shadow-2xl">
+                    <h1 class="text-5xl font-heading font-bold mb-10 leading-tight">Navigasi FOMO: Pulih di Tengah Badai Informasi Digital</h1>
                     
-                    <span class="article-section-title">Ilusi Perbandingan Sosial</span>
-                    <p>Algoritma media sosial dirancang untuk memamerkan "Highlights" hidup orang lain, yang secara bawah sadar kita bandingkan dengan "Behind the scenes" hidup kita yang berantakan. Hal ini menciptakan kegelisahan konstan, penurunan kualitas istirahat, dan gangguan konsentrasi yang masif saat belajar. Fenomena ini diperparah dengan notifikasi yang terus menerus memicu dopamin secara artifisial, membuat otak kita selalu dalam kondisi siaga.</p>
-                    
-                    <div class="quote-box" style="background: rgba(129, 140, 248, 0.1);">
-                        <p class="italic text-xl mb-4">"Kita lebih sibuk mendokumentasikan hidup daripada menjalaninya. Di balik setiap postingan sempurna, ada ribuan momen nyata yang terabaikan karena kita terlalu sibuk mencari pengakuan digital."</p>
-                    </div>
-
-                    <span class="article-section-title">Detoks Digital sebagai Solusi</span>
-                    <p>Mahasiswa perlu melatih Mindfulness atau kesadaran penuh. Strategi detoks digital berkala—seperti mematikan notifikasi selama waktu belajar dan mengalokasikan waktu tanpa layar minimal 3 jam sehari—terbukti mampu memulihkan kesehatan saraf mata dan ketenangan batin. Fokus pada hubungan interpersonal di dunia nyata akan memberikan kepuasan emosional yang jauh lebih dalam dibanding sekadar angka 'like'.</p>
-
-                    <span class="article-section-title">Strategi Pemulihan Mental</span>
-                    <p>Mulailah dengan kurasi konten yang positif. Berhentilah mengikuti akun-akun yang memicu rasa tidak percaya diri. Alihkan energi tersebut untuk membangun komunitas belajar yang nyata, diskusi tatap muka di kantin, atau sekadar menikmati kesunyian tanpa gadget. Kedamaian adalah kemewahan baru di abad ke-21.</p>
-                </div>
-            `,
-            etika: `
-                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200" class="w-full rounded-3xl mb-12 shadow-2xl">
-                <h1 class="text-5xl font-heading font-bold mb-10 leading-tight">Etika Digital: Membangun Kedaulatan Data Pribadi</h1>
-                
-                <div class="opacity-80 leading-loose space-y-8 text-lg">
-                    <p class="drop-cap">Di tahun 2026, data adalah mata uang baru yang lebih berharga daripada emas. Namun, pertanyaannya adalah: seberapa murah kita menjual privasi kita demi kemudahan layanan digital gratis? Kedaulatan data bukan lagi sekadar wacana teknis, melainkan hak asasi mendasar yang harus diperjuangkan oleh setiap individu digital.</p>
-                    
-                    <span class="article-section-title">Komodifikasi Identitas</span>
-                    <p>Mahasiswa seringkali menjadi target utama algoritma karena pola konsumsi dan adaptasi teknologi yang tinggi. Tanpa kita sadari, setiap klik, riwayat pencarian, dan lokasi kita membentuk profil digital yang digunakan perusahaan raksasa untuk memprediksi perilaku kita di masa depan. Jika Anda tidak membayar untuk produknya, maka Anda—perilaku dan data Anda—adalah produk yang sedang dijual di pasar iklan global.</p>
-                    
-                    <span class="article-section-title">Membangun Pertahanan Digital</span>
-                    <p>Sangat krusial bagi mahasiswa untuk memahami literasi keamanan siber. Ini bukan hanya soal menghindari 'phishing', tapi soal kontrol atas jejak digital kita. Gunakan enkripsi ujung-ke-ujung, manajemen kata sandi yang kompleks (seperti passkeys), dan berhati-hatilah dalam membagikan data biometrik. Kesadaran akan privasi adalah bentuk integritas diri di dunia maya yang tanpa batas.</p>
-                    
-                    <div class="quote-box" style="background: rgba(16, 185, 129, 0.1);">
-                        <p class="italic text-xl mb-4">"Keamanan siber bukan soal ketakutan, tapi soal kebebasan. Kebebasan untuk menjadi diri sendiri tanpa harus selalu dipantau oleh algoritma yang tidak memiliki jiwa."</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                        <div class="stat-card" style="border-left-color: #818cf8;">
+                            <div class="text-3xl font-bold text-indigo-400 mb-1">78%</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Tingkat Stres Digital</p>
+                        </div>
+                        <div class="stat-card" style="border-left-color: #fbbf24;">
+                            <div class="text-3xl font-bold text-amber-400 mb-1">3 Jam</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Waktu Layar</p>
+                        </div>
+                        <div class="stat-card" style="border-left-color: #f472b6;">
+                            <div class="text-3xl font-bold text-pink-400 mb-1">High</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Tekanan Sosial</p>
+                        </div>
+                        <div class="stat-card" style="border-left-color: #34d399;">
+                            <div class="text-3xl font-bold text-emerald-400 mb-1">Active</div>
+                            <p class="text-[10px] opacity-50 uppercase font-bold">Social Anxiety</p>
+                        </div>
                     </div>
 
-                    <span class="article-section-title">Masa Depan Kedaulatan Data</span>
-                    <p>Sebagai agen perubahan, mahasiswa harus mendorong transparansi data di platform-platform yang mereka gunakan. Masa depan web yang desentralisasi menjanjikan kepemilikan data kembali ke tangan pengguna. Inilah revolusi yang perlu kita dukung demi ekosistem internet yang lebih adil dan manusiawi.</p>
-                </div>
-            `
+                    <div class="opacity-80 leading-loose space-y-8 text-lg">
+                        <p class="drop-cap">Fear of Missing Out (FOMO) telah berkembang menjadi pandemi psikologis di kalangan mahasiswa. Di dunia yang selalu menyala 24/7, tertinggal satu tren saja bisa terasa seperti kegagalan sosial yang fatal.</p>
+                        
+                        <span class="article-section-title">Ilusi Perbandingan Sosial</span>
+                        <p>Algoritma media sosial dirancang untuk memamerkan "Highlights" hidup orang lain. Mahasiswa perlu melatih Mindfulness atau kesadaran penuh untuk menghadapi ini.</p>
+                        
+                        <div class="quote-box" style="background: rgba(129, 140, 248, 0.1);">
+                            <p class="italic text-xl mb-4">"Kita lebih sibuk mendokumentasikan hidup daripada menjalaninya. Detoks digital bukan lagi pilihan, tapi kebutuhan untuk tetap waras."</p>
+                        </div>
+                    </div>
+                `
+            },
+            etika: {
+                title: "Etika & Privasi",
+                category: "etika",
+                content: `
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200" class="w-full rounded-3xl mb-12 shadow-2xl">
+                    <h1 class="text-5xl font-heading font-bold mb-10 leading-tight">Etika Digital: Membangun Kedaulatan Data Pribadi</h1>
+                    
+                    <div class="opacity-80 leading-loose space-y-8 text-lg">
+                        <p class="drop-cap">Di tahun 2026, data adalah mata uang baru yang lebih berharga daripada emas. Kedaulatan data bukan lagi sekadar wacana teknis, melainkan hak asasi mendasar.</p>
+                        
+                        <span class="article-section-title">Komodifikasi Identitas</span>
+                        <p>Mahasiswa seringkali menjadi target utama algoritma karena pola konsumsi teknologi yang tinggi. Sangat krusial bagi kita untuk memahami literasi keamanan siber dan kontrol atas jejak digital kita.</p>
+                    </div>
+                `
+            }
         };
+
+        let currentArticleKey = "";
+        let savedBookmarks = JSON.parse(localStorage.getItem('inotek_bookmarks') || '[]');
+
+        function updateBookmarkUI() {
+            document.getElementById('bookmarkCount').innerText = savedBookmarks.length;
+            Object.keys(articles).forEach(key => {
+                const btn = document.getElementById(`bookmark-${key}`);
+                if (btn) {
+                    if (savedBookmarks.includes(key)) {
+                        btn.innerHTML = '<i class="fa-solid fa-bookmark text-cyan-400"></i>';
+                        btn.classList.add('opacity-100');
+                    } else {
+                        btn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                        btn.classList.remove('opacity-100');
+                    }
+                }
+            });
+            
+            // Modal Bookmark Btn
+            const modalBtn = document.getElementById('modalBookmarkBtn');
+            if (modalBtn) {
+                if (savedBookmarks.includes(currentArticleKey)) {
+                    modalBtn.innerHTML = '<i class="fa-solid fa-bookmark text-cyan-400"></i>';
+                } else {
+                    modalBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                }
+            }
+        }
+
+        function toggleBookmark(key) {
+            const index = savedBookmarks.indexOf(key);
+            if (index > -1) {
+                savedBookmarks.splice(index, 1);
+            } else {
+                savedBookmarks.push(key);
+            }
+            localStorage.setItem('inotek_bookmarks', JSON.stringify(savedBookmarks));
+            updateBookmarkUI();
+        }
+
+        function toggleBookmarkFromModal() {
+            if (currentArticleKey) toggleBookmark(currentArticleKey);
+        }
+
+        function showBookmarks() {
+            const list = document.getElementById('bookmarkList');
+            const modal = document.getElementById('bookmarkModal');
+            list.innerHTML = '';
+            
+            if (savedBookmarks.length === 0) {
+                list.innerHTML = '<p class="opacity-40 italic">Belum ada artikel yang disimpan.</p>';
+            } else {
+                savedBookmarks.forEach(key => {
+                    const item = document.createElement('div');
+                    item.className = 'flex justify-between items-center glass p-4 rounded-2xl';
+                    item.innerHTML = `
+                        <span class="font-bold cursor-pointer hover:text-cyan-400" onclick="closeBookmarks(); openArticle('${key}')">${articles[key].title}</span>
+                        <button onclick="toggleBookmark('${key}'); showBookmarks()" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+                    `;
+                    list.appendChild(item);
+                });
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeBookmarks() {
+            document.getElementById('bookmarkModal').classList.add('hidden');
+        }
+
+        function filterArticles(category) {
+            const cards = document.querySelectorAll('.article-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${category}`).classList.add('active');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function shareArticle() {
+            const text = `Baca artikel "${articles[currentArticleKey].title}" di INOTEK 2026!`;
+            // Simple clipboard copy as share simulation
+            const temp = document.createElement('input');
+            document.body.appendChild(temp);
+            temp.value = text;
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            alert("Tautan artikel telah disalin ke papan klip!");
+        }
+
+        function openArticle(key) {
+            currentArticleKey = key;
+            document.getElementById('modalBody').innerHTML = articles[key].content;
+            const modal = document.getElementById('articleModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            modal.scrollTo(0,0);
+            updateBookmarkUI();
+            
+            modal.onscroll = function() {
+                const winScroll = modal.scrollTop;
+                const height = modal.scrollHeight - modal.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById("readingProgress").style.width = scrolled + "%";
+            };
+        }
+
+        function closeArticle() {
+            document.getElementById('articleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById("readingProgress").style.width = "0%";
+            currentArticleKey = "";
+        }
 
         function toggleMenu() {
             const menu = document.getElementById('menuOverlay');
@@ -496,27 +678,6 @@
             icon.className = body.classList.contains('light-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
 
-        function openArticle(key) {
-            document.getElementById('modalBody').innerHTML = articles[key];
-            const modal = document.getElementById('articleModal');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            modal.scrollTo(0,0);
-            
-            modal.onscroll = function() {
-                const winScroll = modal.scrollTop;
-                const height = modal.scrollHeight - modal.clientHeight;
-                const scrolled = (winScroll / height) * 100;
-                document.getElementById("readingProgress").style.width = scrolled + "%";
-            };
-        }
-
-        function closeArticle() {
-            document.getElementById('articleModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            document.getElementById("readingProgress").style.width = "0%";
-        }
-
         function showThankYou() {
             alert("Terima kasih! Aspirasi Anda telah diterima oleh Redaksi INOTEK.");
         }
@@ -529,8 +690,12 @@
                 if (revealTop < windowHeight - 80) reveals[i].classList.add('active');
             }
         }
+
         window.addEventListener('scroll', reveal);
-        window.onload = reveal;
+        window.onload = () => {
+            reveal();
+            updateBookmarkUI();
+        };
     </script>
 </body>
 </html>
