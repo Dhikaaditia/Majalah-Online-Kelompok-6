@@ -72,10 +72,15 @@
         }
 
         .review-card {
-            background: rgba(34, 211, 238, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            border-left: 4px solid var(--accent);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid rgba(128,128,128,0.1);
+            transition: all 0.3s ease;
+        }
+        .review-card:hover {
+            border-color: var(--accent);
+            background: rgba(34, 211, 238, 0.03);
         }
 
         .author-badge {
@@ -93,16 +98,6 @@
             top: 0; left: 0; height: 4px;
             background: var(--accent);
             width: 0%; z-index: 160;
-        }
-
-        .opinion-input {
-            background: rgba(128,128,128,0.1);
-            border: 1px solid rgba(128,128,128,0.2);
-            color: var(--text-color);
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 10px;
         }
 
         .article-body p {
@@ -178,7 +173,7 @@
         </div>
     </section>
 
-    <!-- Feature Section -->
+    <!-- Feature Section (Laporan Utama) -->
     <section id="feature-utama" class="py-32 px-6 md:px-20 bg-zinc-950/30">
         <div class="max-w-7xl mx-auto">
             <div class="reveal mb-16 border-l-4 border-cyan-400 pl-8">
@@ -213,17 +208,15 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- AI Paradox -->
                 <div class="reveal group cursor-pointer" onclick="openArticle('ai')">
                     <div class="rounded-3xl overflow-hidden aspect-[3/4] bg-zinc-900 mb-6 relative">
                         <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000">
                         <div class="absolute bottom-6 left-6 right-6">
-                            <span class="author-badge mb-2 inline-block">Fares Maulidda Magruf</span>
+                            <span class="author-badge mb-2 inline-block">Fares M. Magruf</span>
                             <h3 class="text-2xl font-heading font-bold text-white">Paradoks AI</h3>
                         </div>
                     </div>
                 </div>
-                <!-- FOMO -->
                 <div class="reveal group cursor-pointer" onclick="openArticle('fomo')" style="transition-delay: 100ms;">
                     <div class="rounded-3xl overflow-hidden aspect-[3/4] bg-zinc-900 mb-6 relative">
                         <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000">
@@ -233,7 +226,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Data Ethics -->
                 <div class="reveal group cursor-pointer" onclick="openArticle('etika')" style="transition-delay: 200ms;">
                     <div class="rounded-3xl overflow-hidden aspect-[3/4] bg-zinc-900 mb-6 relative">
                         <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000">
@@ -243,7 +235,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- New Literacy -->
                 <div class="reveal group cursor-pointer" onclick="openArticle('literasi')" style="transition-delay: 300ms;">
                     <div class="rounded-3xl overflow-hidden aspect-[3/4] bg-zinc-900 mb-6 relative">
                         <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000">
@@ -266,7 +257,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Fares -->
                 <div class="team-card p-8 rounded-3xl reveal text-center">
                     <div class="w-20 h-20 bg-cyan-400/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fa-solid fa-crown text-3xl text-cyan-400"></i>
@@ -275,7 +265,6 @@
                     <p class="text-cyan-400 text-xs font-bold mb-3">2503015015</p>
                     <p class="text-slate-500 text-sm italic">Ketua & Penulis Utama</p>
                 </div>
-                <!-- Muhalif (Now Chief Editor) -->
                 <div class="team-card p-8 rounded-3xl reveal text-center border-amber-400/30" style="background: rgba(251, 191, 36, 0.05);">
                     <div class="w-20 h-20 bg-amber-400/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fa-solid fa-pen-nib text-3xl text-amber-400"></i>
@@ -284,7 +273,6 @@
                     <p class="text-amber-400 text-xs font-bold mb-3">2503015043</p>
                     <p class="text-slate-500 text-sm italic font-bold">Chief Editor</p>
                 </div>
-                <!-- Omar -->
                 <div class="team-card p-8 rounded-3xl reveal text-center" style="transition-delay: 100ms;">
                     <div class="w-20 h-20 bg-indigo-400/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fa-solid fa-palette text-3xl text-indigo-400"></i>
@@ -293,7 +281,6 @@
                     <p class="text-indigo-400 text-xs font-bold mb-3">2503015049</p>
                     <p class="text-slate-500 text-sm italic">Desain & Pengembangan Isi</p>
                 </div>
-                <!-- Dhika -->
                 <div class="team-card p-8 rounded-3xl reveal text-center" style="transition-delay: 200ms;">
                     <div class="w-20 h-20 bg-emerald-400/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fa-solid fa-feather-pointed text-3xl text-emerald-400"></i>
@@ -314,19 +301,23 @@
             </button>
             <div id="modalBody" class="article-body"></div>
 
-            <div class="mt-20 pt-10 border-t border-white/10">
-                <h3 class="text-2xl font-heading font-bold mb-6">Diskusi Terbuka</h3>
-                <div id="commentSection" class="space-y-4 mb-8"></div>
-                <div class="glass p-6 rounded-2xl">
-                    <label class="text-xs uppercase font-bold text-slate-400">Bagikan Refleksi Anda</label>
-                    <textarea id="opinionText" class="opinion-input h-32" placeholder="Tuliskan analisis kritis atau pendapat Anda..."></textarea>
-                    <button onclick="submitOpinion()" class="mt-4 bg-cyan-400 text-black px-8 py-3 rounded-full font-bold text-sm hover:scale-105 transition-all">Kirim Analisis</button>
+            <div class="mt-24 pt-10 border-t border-white/10">
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="w-10 h-10 bg-cyan-400 rounded-lg flex items-center justify-center text-black">
+                        <i class="fa-solid fa-users-viewfinder"></i>
+                    </div>
+                    <h3 class="text-3xl font-heading font-bold">Review Sejawat (Peer Review)</h3>
+                </div>
+                
+                <p class="text-slate-400 mb-8 text-sm italic italic">Setiap artikel telah ditinjau secara kritis oleh seluruh anggota dewan redaksi untuk memastikan kualitas konten dan integritas ilmiah.</p>
+
+                <div id="peerReviews" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Reviewer content injected via JS -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="py-20 text-center border-t border-white/5">
         <div class="mb-8">
             <h2 class="font-heading font-bold text-2xl tracking-tighter">INO<span class="text-cyan-400">TEK</span></h2>
@@ -336,105 +327,96 @@
     </footer>
 
     <script>
+        const members = [
+            { name: "Fares M. Magruf", role: "Ketua Redaksi", id: "fares", icon: "fa-crown", color: "text-cyan-400" },
+            { name: "Muhalif Noferi", role: "Chief Editor", id: "muhalif", icon: "fa-pen-nib", color: "text-amber-400" },
+            { name: "Omar Thareq", role: "Desain Isi", id: "omar", icon: "fa-palette", color: "text-indigo-400" },
+            { name: "Dhika Aditia", role: "Penyunting Bahasa", id: "dhika", icon: "fa-feather-pointed", color: "text-emerald-400" }
+        ];
+
         const articles = {
             ai: {
-                author: "Fares Maulidda Magruf",
-                content: `
-                    <h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Paradoks AI: Antara Efisiensi Kurikulum dan Erosi Berpikir Kritis</h1>
-                    <p class="text-sm italic mb-8 opacity-60">Fakultas Teknologi Informasi | Seri Analisis Fundamental</p>
-                    
-                    <h3 class="text-cyan-400">I. Pergeseran Paradigma Kognitif</h3>
-                    <p>Memasuki tahun 2026, Artificial Intelligence (AI) bukan lagi sekadar alat bantu pencarian, melainkan arsitek dari cara kita memproses pengetahuan. Fenomena "Cognitive Offloading"—kecenderungan otak untuk menyerahkan tugas berpikir berat kepada algoritma—telah mencapai puncaknya di lingkungan akademik. Efisiensi yang ditawarkan oleh Model Bahasa Besar (LLM) generasi terbaru memang mampu mempercepat penulisan jurnal riset, namun risikonya adalah hilangnya kemampuan dialektika internal dalam diri mahasiswa.</p>
-                    
-                    <h3 class="text-cyan-400">II. Tantangan 'Prompt-Dependence'</h3>
-                    <p>Riset internal kami menunjukkan bahwa 70% mahasiswa merasa kesulitan merumuskan argumen dari nol tanpa bantuan struktur AI. Ketergantungan ini menciptakan 'generasi prompter', bukan 'generasi kreator'. Kemampuan untuk bergulat dengan kebuntuan ide (writers block), yang sebenarnya merupakan proses neuroplastisitas kritis, kini sering dipotong demi kecepatan hasil akhir. Kita menghadapi ancaman atrofi intelektual jika AI digunakan sebagai pengganti, bukan katalisator.</p>
-                    
-                    <h3 class="text-cyan-400">III. Rekonstruksi Peran Akademisi</h3>
-                    <p>Universitas harus bergeser dari pengajaran berbasis hafalan menuju pengajaran berbasis kurasi dan audit kebenaran. Dosen masa kini tidak lagi bertugas memberikan jawaban, melainkan melatih mahasiswa untuk membedah bias dalam jawaban AI. Kita membutuhkan etika "Human-in-the-Loop" di mana setiap keluaran algoritma harus melalui filter kritis manusia yang memiliki kedalaman moral dan kearifan lokal.</p>
-
-                    <div class="bg-zinc-900 p-8 rounded-xl my-10 border border-cyan-400/20">
-                        <h4 class="font-bold mb-4 text-white"><i class="fa-solid fa-microchip mr-2"></i> Temuan Utama Riset</h4>
-                        <ul class="text-sm space-y-3 opacity-80 list-disc pl-5">
-                            <li>Laju adopsi AI di perguruan tinggi meningkat 300% dalam 18 bulan terakhir.</li>
-                            <li>Terdapat korelasi negatif antara penggunaan AI tanpa pengawasan dengan kemampuan sintesis argumen orisinal.</li>
-                            <li>Kebutuhan akan kurikulum 'AI Ethics & Audit' menjadi mendesak bagi mahasiswa TI.</li>
-                        </ul>
-                    </div>
-
-                    <h3 class="text-cyan-400">IV. Kesimpulan</h3>
-                    <p>Kedaulatan intelektual mahasiswa terletak pada keberanian untuk mempertanyakan jawaban yang diberikan oleh mesin. AI adalah cermin dari data masa lalu; sedangkan masa depan tetap milik mereka yang mampu melampaui data tersebut melalui kreativitas dan empati.</p>
-                `
+                authorId: "fares",
+                title: "Paradoks AI: Antara Efisiensi Kurikulum dan Erosi Berpikir Kritis",
+                content: `<h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Paradoks AI: Antara Efisiensi Kurikulum dan Erosi Berpikir Kritis</h1>
+                    <p>Memasuki tahun 2026, AI bukan lagi alat bantu pencarian, melainkan arsitek cara kita memproses pengetahuan. Fenomena "Cognitive Offloading" mencapai puncaknya di akademik...</p>
+                    <p>Riset internal kami menunjukkan bahwa ketergantungan pada Model Bahasa Besar (LLM) dapat mengikis kemampuan analitis jika tidak dibarengi dengan literasi audit AI yang ketat.</p>`,
+                reviews: {
+                    muhalif: "Analisis fundamental yang sangat tajam. Penekanan pada 'Cognitive Offloading' sangat relevan dengan temuan kami di lab riset semester ini.",
+                    omar: "Visualisasi data dalam teks ini membantu pembaca memahami urgensi masalah. Perlu ditambahkan infografis pendukung di edisi cetak.",
+                    dhika: "Secara narasi sudah sangat mengalir. Saya hanya merapikan beberapa terminologi teknis agar lebih mudah dipahami audiens awam."
+                }
             },
             fomo: {
-                author: "Omar Thareq",
-                content: `
-                    <h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Navigasi Digital: Psikologi FOMO dalam Arus Algoritma 2026</h1>
-                    <p class="text-sm italic mb-8 opacity-60">Social Design & Behavior Research | Edisi April 2026</p>
-                    
-                    <h3 class="text-indigo-400">I. Ekonomi Atensi dan Eksploitasi Dopamin</h3>
-                    <p>Fear of Missing Out (FOMO) di tahun 2026 telah berevolusi dari sekadar fenomena sosial menjadi komoditas ekonomi yang dirancang secara matematis. Platform digital modern menggunakan 'hyper-personalization' untuk memastikan setiap pengguna merasa bahwa ada informasi krusial yang mereka lewatkan setiap detiknya. Ini bukan kecelakaan desain; ini adalah arsitektur atensi yang memaksa otak kita tetap dalam kondisi siaga (fight-or-flight) secara digital.</p>
-                    
-                    <h3 class="text-indigo-400">II. Dampak Sistemik pada Fokus Jangka Panjang</h3>
-                    <p>Penurunan rentang perhatian (attention span) rata-rata manusia kini berada di bawah 8 detik, lebih rendah dari ikan mas. Bagi mahasiswa, ini berarti hilangnya kemampuan 'Deep Work'—kemampuan untuk fokus pada tugas kompleks selama berjam-jam tanpa gangguan. Fragmentasi fokus ini menyebabkan dangkalnya pemahaman terhadap materi pelajaran, karena otak terbiasa mengonsumsi informasi dalam potongan kecil yang superfisial.</p>
-                    
-                    <h3 class="text-indigo-400">III. Membangun Resiliensi Digital (JOMO)</h3>
-                    <p>Joy of Missing Out (JOMO) bukan berarti anti-teknologi, melainkan tentang kedaulatan atas perhatian kita sendiri. Strategi "Digital Minimalism" yang mencakup pembatasan notifikasi, penggunaan perangkat monokromatik, dan alokasi waktu 'analog' wajib menjadi bagian dari gaya hidup mahasiswa modern. Kita harus merebut kembali hak untuk tidak tahu segalanya, demi bisa mengetahui satu hal secara mendalam.</p>
-
-                    <div class="bg-zinc-900 p-8 rounded-xl my-10 border border-indigo-400/20">
-                        <h4 class="font-bold mb-4 text-white"><i class="fa-solid fa-brain mr-2"></i> Catatan Psikologis</h4>
-                        <p class="text-sm opacity-80 italic">"Di dunia dengan informasi tak terbatas, atensi adalah satu-satunya sumber daya yang benar-benar langka."</p>
-                    </div>
-                `
+                authorId: "omar",
+                title: "Psikologi FOMO dalam Arus Algoritma 2026",
+                content: `<h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Navigasi Digital: Psikologi FOMO dalam Arus Algoritma 2026</h1>
+                    <p>FOMO telah berevolusi menjadi komoditas ekonomi yang dirancang secara matematis. Platform menggunakan 'hyper-personalization' untuk memastikan atensi pengguna tetap terjebak...</p>`,
+                reviews: {
+                    fares: "Perspektif desain perilaku yang sangat menarik. Ini menjelaskan mengapa produktivitas mahasiswa menurun drastis belakangan ini.",
+                    muhalif: "Review dari sisi etika data: Algoritma memang sengaja mengeksploitasi kerentanan psikologis. Artikel ini berhasil menangkap esensi tersebut.",
+                    dhika: "Penyampaian metafora tentang 'ikan mas' sangat efektif. Gaya bahasanya santai namun tetap berbobot."
+                }
             },
             etika: {
-                author: "Muhalif Noferi",
-                content: `
-                    <h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Kedaulatan Data: Membangun Benteng Privasi di Era Transparansi Total</h1>
-                    <p class="text-sm italic mb-8 opacity-60">Security & Cyber Ethics | Edisi April 2026</p>
-                    
-                    <h3 class="text-yellow-500">I. Data Sebagai Mata Uang Eksistensial</h3>
-                    <p>Pepatah lama mengatakan "jika layanannya gratis, andalah produknya." Namun di tahun 2026, realitasnya lebih ekstrem: "anda adalah sumber daya tambangnya." Data biometrik, pola tidur, hingga gelombang emosi yang terekam melalui perangkat wearable telah menjadi komoditas politik dan ekonomi. Privasi bukan lagi hak yang diberikan, melainkan benteng yang harus dibangun secara aktif oleh individu melalui penguasaan teknologi enkripsi.</p>
-                    
-                    <h3 class="text-yellow-500">II. Ancaman Profiling dan Manipulasi Perilaku</h3>
-                    <p>Kita menghadapi risiko 'Algorithmic Determinism'—di mana keputusan tentang masa depan kita (seperti kelayakan kredit, asuransi, atau peluang kerja) diambil oleh AI berdasarkan data masa lalu yang mungkin bias atau tidak lengkap. Tanpa regulasi yang ketat dan transparansi algoritma, masyarakat kita berisiko terjebak dalam sistem kasta digital yang baru.</p>
-                    
-                    <h3 class="text-yellow-500">III. Urgensi Literasi Hukum Digital</h3>
-                    <p>Mahasiswa Teknologi Informasi harus menjadi garda terdepan dalam memperjuangkan "Right to be Forgotten" (Hak untuk Dilupakan) dan kedaulatan data lokal. Kita harus mendorong penggunaan teknologi desentralisasi (seperti Web3 dan Blockchain) yang memungkinkan individu memiliki kendali penuh atas identitas digital mereka tanpa bergantung pada server korporasi raksasa.</p>
-                `
+                authorId: "muhalif",
+                title: "Kedaulatan Data: Membangun Benteng Privasi",
+                content: `<h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Kedaulatan Data: Membangun Benteng Privasi</h1>
+                    <p>Data biometrik dan pola tidur telah menjadi komoditas politik. Privasi bukan lagi hak yang diberikan, melainkan benteng yang harus dibangun secara aktif melalui enkripsi.</p>`,
+                reviews: {
+                    fares: "Ini adalah landasan penting bagi mahasiswa TI. Muhalif berhasil membedah sisi gelap kenyamanan digital.",
+                    omar: "Struktur artikel sangat teratur, memudahkan saya dalam merancang tata letak yang mendukung pesan privasi ini.",
+                    dhika: "Argumen tentang Web3 dan kedaulatan data lokal sangat kuat. Penulisan sangat rapi dan sistematis."
+                }
             },
             literasi: {
-                author: "Dhika Aditia",
-                content: `
-                    <h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Era Post-Truth: Bertahan Hidup di Tengah Banjir Deepfake</h1>
-                    <p class="text-sm italic mb-8 opacity-60">Media Studies & Digital Literacy | Edisi April 2026</p>
-                    
-                    <h3 class="text-emerald-500">I. Runtuhnya Bukti Visual</h3>
-                    <p>Dulu, foto dan video adalah bukti tak terbantahkan. Namun kehadiran AI generatif yang mampu memproduksi video sintesis (Deepfake) dengan kualitas photorealistic telah menghancurkan fondasi objektivitas kita. Di tahun 2026, kita tidak bisa lagi membedakan antara pernyataan asli seorang pejabat publik dengan simulasi digital yang dibuat oleh aktor jahat untuk memicu konflik sosial.</p>
-                    
-                    <h3 class="text-emerald-500">II. Algoritma Virality vs. Akurasi</h3>
-                    <p>Platform media sosial memprioritaskan konten yang memicu emosi kuat (marah, takut, atau takjub) karena konten tersebut lebih banyak dibagikan. Masalahnya, kebenaran seringkali membosankan dan kompleks, sementara disinformasi dirancang untuk menjadi 'viral'. Literasi baru menuntut kemampuan "Lateral Reading"—kemampuan untuk memverifikasi sumber di luar platform asal sebelum mempercayai sebuah informasi.</p>
-                    
-                    <h3 class="text-emerald-500">III. Pendidikan Sebagai Vaksin Informasi</h3>
-                    <p>Satu-satunya pertahanan terhadap manipulasi digital adalah skeptisisme yang sehat dan kemampuan analisis kritis. Kita harus mendidik masyarakat untuk tidak hanya menjadi konsumen informasi, tetapi juga menjadi detektif informasi. Membangun komunitas yang berbasis fakta adalah tugas suci mahasiswa di era yang penuh dengan kebohongan digital ini.</p>
-                `
+                authorId: "dhika",
+                title: "Era Post-Truth: Bertahan di Tengah Deepfake",
+                content: `<h1 class="text-5xl font-heading font-bold mb-6 text-gradient">Era Post-Truth: Bertahan Hidup di Tengah Banjir Deepfake</h1>
+                    <p>Deepfake telah menghancurkan fondasi objektivitas kita. Kita tidak lagi bisa membedakan antara pernyataan asli dengan simulasi digital aktor jahat.</p>`,
+                reviews: {
+                    fares: "Peringatan yang sangat tepat waktu. Literasi media harus menjadi kurikulum wajib, seperti yang Dhika tekankan.",
+                    muhalif: "Teknis verifikasi 'Lateral Reading' yang dijelaskan di sini sangat aplikatif. Ini adalah panduan bertahan hidup digital.",
+                    omar: "Penggunaan istilah 'vaksin informasi' memberikan gambaran visual yang kuat tentang fungsi pendidikan."
+                }
             }
         };
 
         function openArticle(key) {
             const data = articles[key];
-            document.getElementById('modalBody').innerHTML = `
+            const modalBody = document.getElementById('modalBody');
+            const reviewContainer = document.getElementById('peerReviews');
+            
+            modalBody.innerHTML = `
                 <div class="mb-12 border-b border-white/10 pb-10">
-                    <span class="author-badge mb-4 inline-block">Analisis Eksklusif</span>
-                    <p class="text-2xl font-light opacity-70">Oleh: <span class="font-bold text-white">${data.author}</span></p>
-                    <p class="text-xs text-cyan-400 mt-2 font-bold tracking-[0.2em] uppercase">Publikasi INOTEK 2026 | FTI UHAMKA</p>
+                    <span class="author-badge mb-4 inline-block">Analisis Riset</span>
+                    <p class="text-2xl font-light opacity-70">Oleh: <span class="font-bold text-white">${members.find(m => m.id === data.authorId).name}</span></p>
                 </div>
                 ${data.content}
-                <div class="review-grid grid gap-4 mt-16">
-                    <h4 class="font-bold uppercase text-[10px] tracking-widest text-slate-500">Verifikasi & Tinjauan Redaksi:</h4>
-                    <div class="review-card"><p class="text-sm italic">"Artikel ini telah melalui proses penyuntingan bahasa oleh <b>Dhika Aditia</b> untuk memastikan ketajaman narasi dan akurasi terminologi."</p></div>
-                    <div class="review-card"><p class="text-sm"><b>Catatan Chief Editor (Muhalif N.):</b> Analisis ini telah diverifikasi melalui protokol review editorial INOTEK untuk menjamin integritas data riset.</p></div>
-                </div>
             `;
+
+            reviewContainer.innerHTML = '';
+            members.forEach(member => {
+                if (member.id !== data.authorId) {
+                    const reviewText = data.reviews[member.id] || "Tinjauan sedang dalam proses sinkronisasi...";
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'review-card';
+                    reviewCard.innerHTML = `
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center ${member.color} mr-3">
+                                <i class="fa-solid ${member.icon} text-xs"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-bold">${member.name}</h5>
+                                <p class="text-[10px] uppercase tracking-wider opacity-50">${member.role}</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300 italic leading-relaxed">"${reviewText}"</p>
+                    `;
+                    reviewContainer.appendChild(reviewCard);
+                }
+            });
+
             document.getElementById('articleModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
             
@@ -460,24 +442,6 @@
             document.body.classList.toggle('light-mode');
             const icon = document.getElementById('themeIcon');
             icon.className = document.body.classList.contains('light-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-        }
-
-        function submitOpinion() {
-            const text = document.getElementById('opinionText').value;
-            if(!text) return;
-            const container = document.getElementById('commentSection');
-            const newComment = document.createElement('div');
-            newComment.className = 'glass p-4 rounded-xl mb-4 border-l-2 border-cyan-400 animate-pulse';
-            setTimeout(() => newComment.classList.remove('animate-pulse'), 1000);
-            newComment.innerHTML = `
-                <p class="text-sm opacity-90">${text}</p>
-                <div class="flex items-center mt-3">
-                    <div class="w-6 h-6 bg-slate-700 rounded-full mr-2"></div>
-                    <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Kontributor Publik | Diverifikasi</p>
-                </div>
-            `;
-            container.prepend(newComment);
-            document.getElementById('opinionText').value = '';
         }
 
         window.addEventListener('scroll', () => {
