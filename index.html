@@ -2,13 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>INOTEK 2026 | Transformasi Digital</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -16,38 +13,76 @@
             --aksen-biru: #2563eb;
             --teks-utama: #f1f5f9;
             --teks-sekunder: #94a3b8;
-            --perbatasan: rgba(255, 255, 255, 0.08);
+            --perbatasan: rgba(255,255,255,0.08);
+            --kartu-bg: #161b22;
+            --nav-bg: rgba(15,17,21,0.97);
         }
+
+        /* LIGHT MODE */
+        body.light-mode {
+            --latar-dalam: #f1f5f9;
+            --teks-utama: #0f1115;
+            --teks-sekunder: #475569;
+            --perbatasan: rgba(0,0,0,0.08);
+            --kartu-bg: #ffffff;
+            --nav-bg: rgba(241,245,249,0.97);
+        }
+        body.light-mode .bg-\[\#161b22\], body.light-mode .kartu-fitur, body.light-mode .kartu-rubrik { background: #fff !important; }
+        body.light-mode .bg-\[\#050505\] { background: #e2e8f0 !important; }
+        body.light-mode .text-slate-400 { color: #475569 !important; }
+        body.light-mode .text-slate-500 { color: #64748b !important; }
+        body.light-mode .border-white\/5, body.light-mode .border-white\/10 { border-color: rgba(0,0,0,0.08) !important; }
+        body.light-mode nav { background: var(--nav-bg) !important; border-bottom-color: rgba(0,0,0,0.08) !important; }
+        body.light-mode .bottom-nav { background: rgba(241,245,249,0.97) !important; border-top-color: rgba(0,0,0,0.1) !important; }
+        body.light-mode .bg-white\/5 { background: rgba(0,0,0,0.04) !important; }
+        body.light-mode .isi-artikel p { color: #334155 !important; }
+        body.light-mode .blok-referensi { background: rgba(0,0,0,0.03) !important; }
+        body.light-mode #search-panel { background: #f8fafc !important; }
+        body.light-mode #search-input { background: #e2e8f0 !important; color: #0f1115 !important; }
+        body.light-mode .search-result-item { border-color: rgba(0,0,0,0.08) !important; }
+        body.light-mode .search-result-item:hover { background: #e2e8f0 !important; }
+        body.light-mode .toast-notif { background: #1e293b !important; }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--latar-dalam);
             color: var(--teks-utama);
             font-family: 'Plus Jakarta Sans', sans-serif;
             scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* beri ruang bawah untuk bottom nav di mobile */
+            padding-bottom: 0;
         }
 
-        h1, h2, h3, .nav-link {
-            font-family: 'Space Grotesk', sans-serif;
+        h1, h2, h3, .nav-link { font-family: 'Space Grotesk', sans-serif; }
+
+        /* ===== READING PROGRESS BAR ===== */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--aksen-biru);
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s linear;
         }
 
-        nav {
-            background: rgba(15, 17, 21, 0.95);
+        /* ===== DESKTOP NAV ===== */
+        nav.top-nav {
+            background: var(--nav-bg);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--perbatasan);
             z-index: 1000;
         }
-
         .nav-link {
             position: relative;
             color: var(--teks-sekunder);
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
-        .nav-link:hover, .nav-link.aktif {
-            color: white;
-        }
-
+        .nav-link:hover, .nav-link.aktif { color: var(--teks-utama); }
         .nav-link.aktif::after {
             content: '';
             position: absolute;
@@ -58,64 +93,202 @@
             background: var(--aksen-biru);
         }
 
+        /* ===== MOBILE BOTTOM NAV ===== */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15,17,21,0.97);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--perbatasan);
+            z-index: 1000;
+            padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+        }
+        .bottom-nav-inner {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            align-items: center;
+        }
+        .bnav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--teks-sekunder);
+            border: none;
+            background: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bnav-item.aktif { color: var(--aksen-biru); }
+        .bnav-item i { font-size: 18px; transition: transform 0.2s ease; }
+        .bnav-item.aktif i { transform: translateY(-2px); }
+        .bnav-item span { font-size: 9px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; }
+
+        /* ===== MOBILE HEADER ===== */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--perbatasan);
+            padding: 14px 16px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .mobile-header-logo { display: flex; align-items: center; gap: 8px; }
+        .mobile-header-logo .logo-icon { width: 32px; height: 32px; background: var(--aksen-biru); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: white; }
+        .mobile-header-logo .logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -0.04em; }
+        .mobile-header-actions { display: flex; gap: 8px; }
+        .mobile-action-btn {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            border: 1px solid var(--perbatasan);
+            background: transparent;
+            color: var(--teks-sekunder);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 14px;
+            transition: all 0.2s;
+        }
+        .mobile-action-btn:hover, .mobile-action-btn.aktif { color: var(--teks-utama); border-color: var(--aksen-biru); }
+
+        /* ===== RESPONSIVE BREAKPOINTS ===== */
+        @media (max-width: 768px) {
+            nav.top-nav { display: none !important; }
+            .mobile-header { display: flex !important; }
+            .bottom-nav { display: block !important; }
+            body { padding-bottom: 70px; }
+
+            .halaman-konten { padding-top: 70px !important; }
+            #beranda.halaman-konten { padding-top: 64px !important; }
+
+            .sampul-majalah {
+                grid-template-columns: 1fr !important;
+                border-radius: 16px !important;
+                max-width: 100% !important;
+            }
+            .sampul-majalah .cover-img-wrap { min-height: 220px !important; }
+            .sampul-majalah .cover-text-wrap { padding: 24px !important; }
+            .sampul-majalah h1 { font-size: 3rem !important; }
+            .sampul-majalah h2.judul-sampul { font-size: 1.2rem !important; }
+
+            .artikel-judul { font-size: 2rem !important; }
+            .isi-artikel p { font-size: 0.95rem !important; }
+            .profil-penulis { flex-direction: column; align-items: flex-start; }
+
+            .fitur-grid { grid-template-columns: 1fr !important; }
+            .tim-grid { grid-template-columns: 1fr 1fr !important; }
+            .rubrik-grid { grid-template-columns: 1fr !important; }
+            .tools-grid { grid-template-columns: 1fr !important; }
+            .opini-grid { grid-template-columns: 1fr !important; }
+
+            .modal-inner { border-radius: 24px !important; margin: 12px !important; }
+            .page-padding { padding-left: 16px !important; padding-right: 16px !important; }
+            .artikel-container { padding-left: 16px !important; padding-right: 16px !important; }
+        }
+
+        /* ===== PAGES ===== */
         .halaman-konten {
             display: none;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(16px);
+            transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1), transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
-
         .halaman-aktif {
             display: block;
             opacity: 1;
             transform: translateY(0);
         }
 
+        /* ===== CARDS ===== */
         .kartu-fitur {
             cursor: pointer;
-            transition: all 0.4s ease;
-            background: #161b22;
+            transition: all 0.35s ease;
+            background: var(--kartu-bg);
             border: 1px solid var(--perbatasan);
         }
-
-        .kartu-fitur:hover {
-            border-color: var(--aksen-biru);
-            background: #1c2128;
-            transform: translateY(-5px);
+        .kartu-fitur:hover { border-color: var(--aksen-biru); transform: translateY(-4px); }
+        .kartu-rubrik {
+            background: var(--kartu-bg);
+            border: 1px solid var(--perbatasan);
+            border-radius: 20px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
         }
+        .kartu-rubrik:hover { border-color: var(--aksen-biru); transform: translateY(-3px); }
 
+        /* ===== ARTICLE ===== */
         .isi-artikel p {
-            margin-bottom: 1.75rem;
+            margin-bottom: 1.5rem;
             line-height: 1.9;
             color: #cbd5e1;
-            font-size: 1.125rem;
+            font-size: 1.05rem;
             text-align: justify;
         }
-
         .panel-tinjauan {
             background: rgba(37, 99, 235, 0.05);
             border-left: 4px solid var(--aksen-biru);
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             margin-top: 2rem;
             border-radius: 0 12px 12px 0;
         }
-
-        .sampul-majalah {
-            width: 100%;
-            max-width: 1000px;
-            background: #000;
-            border-radius: 24px;
-            box-shadow: 0 60px 120px -30px rgba(0,0,0,0.8);
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            overflow: hidden;
+        .blok-referensi {
+            background: rgba(255,255,255,0.03);
             border: 1px solid var(--perbatasan);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 2rem;
+        }
+        .blok-referensi p.ref-judul {
+            font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em;
+            text-transform: uppercase; color: #64748b; margin-bottom: 0.75rem;
+        }
+        .blok-referensi ol { list-style: decimal; padding-left: 1.1rem; }
+        .blok-referensi ol li { font-size: 0.75rem; color: #64748b; line-height: 1.8; font-style: italic; }
+        .blok-referensi ol li span { color: #94a3b8; font-style: normal; font-weight: 600; }
+
+        /* ===== PROFIL PENULIS ===== */
+        .profil-penulis {
+            display: flex; align-items: flex-start; gap: 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--perbatasan);
+            border-radius: 14px;
+            padding: 1rem 1.25rem; margin-bottom: 2rem;
+        }
+        .profil-penulis-avatar {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; font-weight: 800; color: white; flex-shrink: 0;
+        }
+        .profil-penulis-info .nama { font-weight: 700; font-size: 0.9rem; }
+        .profil-penulis-info .posisi { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+        .profil-penulis-info .bio { font-size: 0.75rem; color: #64748b; margin-top: 0.2rem; line-height: 1.5; }
+
+        /* ===== COVER ===== */
+        .sampul-majalah {
+            width: 100%; max-width: 1000px;
+            background: #000; border-radius: 24px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
+            display: grid; grid-template-columns: 1.2fr 1fr;
+            overflow: hidden; border: 1px solid var(--perbatasan);
         }
 
-        @media (max-width: 768px) {
-            .sampul-majalah { grid-template-columns: 1fr; }
+        /* ===== BADGE ===== */
+        .badge-rubrik {
+            display: inline-block; font-size: 0.58rem; font-weight: 800;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px; margin-bottom: 0.6rem;
         }
 
+        /* ===== OVERLAY ===== */
         #overlay-fitur {
             display: none;
             background: rgba(0,0,0,0.92);
@@ -123,342 +296,886 @@
             z-index: 2000;
         }
 
+        /* ===== FOTO TIM ===== */
         .foto-redaksi {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 20px;
-            margin: 0 auto 1.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 90px; height: 90px; object-fit: cover;
+            border-radius: 18px; margin: 0 auto 1rem;
+            border: 2px solid rgba(255,255,255,0.1);
         }
+
+        /* ===== SEARCH PANEL ===== */
+        #search-panel {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--latar-dalam);
+            z-index: 3000;
+            padding: 0;
+            flex-direction: column;
+        }
+        #search-panel.open { display: flex; }
+        .search-header {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--perbatasan);
+            background: var(--nav-bg);
+        }
+        #search-input {
+            flex: 1; background: rgba(255,255,255,0.06);
+            border: 1px solid var(--perbatasan);
+            border-radius: 12px; padding: 10px 14px;
+            color: var(--teks-utama); font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem; outline: none;
+        }
+        #search-input:focus { border-color: var(--aksen-biru); }
+        .search-close-btn {
+            width: 36px; height: 36px; background: none; border: none;
+            color: var(--teks-sekunder); font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        #search-results { flex: 1; overflow-y: auto; padding: 16px; }
+        .search-result-item {
+            padding: 14px; border-radius: 14px;
+            border: 1px solid var(--perbatasan); margin-bottom: 10px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .search-result-item:hover { border-color: var(--aksen-biru); background: rgba(37,99,235,0.06); }
+        .search-result-item .s-tag { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+        .search-result-item .s-judul { font-size: 0.9rem; font-weight: 700; margin: 4px 0; }
+        .search-result-item .s-desc { font-size: 0.75rem; color: var(--teks-sekunder); }
+        .search-empty { text-align: center; padding: 60px 20px; color: var(--teks-sekunder); }
+
+        /* ===== BACK TO TOP ===== */
+        #back-to-top {
+            position: fixed; bottom: 90px; right: 16px;
+            width: 42px; height: 42px;
+            background: var(--aksen-biru); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 16px; cursor: pointer;
+            opacity: 0; transform: translateY(10px);
+            transition: all 0.3s ease; z-index: 900; border: none;
+            box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+        }
+        #back-to-top.visible { opacity: 1; transform: translateY(0); }
+        @media (min-width: 769px) {
+            #back-to-top { bottom: 24px; right: 24px; }
+        }
+
+        /* ===== TOAST NOTIFIKASI ===== */
+        .toast-notif {
+            position: fixed; bottom: 80px; left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1e293b; color: white;
+            padding: 10px 20px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 600;
+            z-index: 9998; opacity: 0;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        .toast-notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        @media (min-width: 769px) { .toast-notif { bottom: 30px; } }
+
+        /* ===== ARTIKEL TAB PILLS (mobile) ===== */
+        .artikel-pills {
+            display: flex; gap: 8px; overflow-x: auto;
+            padding: 0 16px 16px; margin-bottom: 8px;
+            scrollbar-width: none;
+        }
+        .artikel-pills::-webkit-scrollbar { display: none; }
+        .pill-btn {
+            flex-shrink: 0; padding: 6px 16px;
+            border-radius: 100px; font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s;
+            border: 1px solid var(--perbatasan); background: transparent;
+            color: var(--teks-sekunder);
+        }
+        .pill-btn.aktif { background: var(--aksen-biru); color: white; border-color: transparent; }
+
+        /* ===== READING TIME BADGE ===== */
+        .reading-time-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(37,99,235,0.1); border: 1px solid rgba(37,99,235,0.2);
+            color: #60a5fa; padding: 4px 10px; border-radius: 100px;
+            font-size: 0.68rem; font-weight: 700;
+        }
+
+        /* ===== BOOKMARK BUTTON ===== */
+        .bookmark-btn {
+            background: none; border: 1px solid var(--perbatasan);
+            border-radius: 10px; padding: 6px 14px;
+            color: var(--teks-sekunder); font-size: 0.72rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .bookmark-btn:hover, .bookmark-btn.saved { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.08); }
+
+        /* ===== SHARE BUTTON ===== */
+        .share-btn {
+            background: none; border: 1px solid var(--perbatasan);
+            border-radius: 10px; padding: 6px 14px;
+            color: var(--teks-sekunder); font-size: 0.72rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .share-btn:hover { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.08); }
+
+        /* ===== DIVIDER ===== */
+        .artikel-divider { border: none; border-top: 1px solid var(--perbatasan); margin: 3rem 0; }
+
+        /* ===== SCROLL INDICATOR (beranda) ===== */
+        @keyframes bounce-down {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+        .scroll-hint { animation: bounce-down 1.5s infinite; }
+
+        /* ===== ANIMASI MASUK ===== */
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .halaman-aktif > * { animation: fadeSlideIn 0.5s ease forwards; }
     </style>
 </head>
 <body>
 
-    <!-- Navigasi -->
-    <nav class="fixed w-full top-0 py-6 px-10 flex justify-between items-center">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold">I</div>
-            <span class="text-2xl font-bold tracking-tighter">INOTEK<span class="text-blue-500">2026</span></span>
-        </div>
-        <div class="hidden md:flex space-x-10">
-            <a onclick="pindahHalaman('beranda')" class="nav-link aktif text-xs font-bold tracking-widest" data-nav="beranda">BERANDA</a>
-            <a onclick="pindahHalaman('artikel')" class="nav-link text-xs font-bold tracking-widest" data-nav="artikel">ARTIKEL</a>
-            <a onclick="pindahHalaman('fitur')" class="nav-link text-xs font-bold tracking-widest" data-nav="fitur">FITUR INTI</a>
-            <a onclick="pindahHalaman('editorial')" class="nav-link text-xs font-bold tracking-widest" data-nav="editorial">EDITORIAL</a>
-            <a onclick="pindahHalaman('tentang')" class="nav-link text-xs font-bold tracking-widest" data-nav="tentang">TIM</a>
-        </div>
-        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-widest hidden lg:block">Vol. 01 / Edisi Perdana</div>
-    </nav>
+<!-- Reading Progress Bar -->
+<div id="progress-bar"></div>
 
-    <!-- BERANDA -->
-    <main id="beranda" class="halaman-konten halaman-aktif">
-        <section class="min-h-screen flex items-center justify-center p-6 pt-32">
-            <div class="sampul-majalah">
-                <div class="relative h-full min-h-[450px]">
-                    <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=1200" alt="Seni Digital" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                    <div class="absolute bottom-10 left-10">
-                        <p class="text-blue-500 font-bold tracking-widest text-xs mb-2">EDISI 01: MANUSIA & MESIN</p>
-                        <h2 class="text-4xl font-bold">SIMBIOSIS DIGITAL</h2>
+<!-- Toast Notifikasi -->
+<div class="toast-notif" id="toast"></div>
+
+<!-- Back to Top -->
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ===== DESKTOP TOP NAV ===== -->
+<nav class="top-nav fixed w-full top-0 py-5 px-10 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-sm">I</div>
+        <span class="text-xl font-bold tracking-tighter">INOTEK<span class="text-blue-500">2026</span></span>
+    </div>
+    <div class="hidden md:flex space-x-8 items-center">
+        <a onclick="pindahHalaman('beranda')" class="nav-link aktif text-xs font-bold tracking-widest" data-nav="beranda">BERANDA</a>
+        <a onclick="pindahHalaman('artikel')" class="nav-link text-xs font-bold tracking-widest" data-nav="artikel">ARTIKEL</a>
+        <a onclick="pindahHalaman('fitur')" class="nav-link text-xs font-bold tracking-widest" data-nav="fitur">FITUR INTI</a>
+        <a onclick="pindahHalaman('rubrik')" class="nav-link text-xs font-bold tracking-widest" data-nav="rubrik">RUBRIK</a>
+        <a onclick="pindahHalaman('editorial')" class="nav-link text-xs font-bold tracking-widest" data-nav="editorial">EDITORIAL</a>
+        <a onclick="pindahHalaman('tentang')" class="nav-link text-xs font-bold tracking-widest" data-nav="tentang">TIM</a>
+    </div>
+    <div class="flex items-center gap-3">
+        <button onclick="toggleSearch()" class="mobile-action-btn" title="Cari"><i class="fas fa-search"></i></button>
+        <button onclick="toggleTheme()" id="theme-btn-desk" class="mobile-action-btn" title="Mode Terang/Gelap"><i class="fas fa-sun"></i></button>
+        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-widest hidden lg:block">Vol. 01 / Edisi Perdana</div>
+    </div>
+</nav>
+
+<!-- ===== MOBILE TOP HEADER ===== -->
+<header class="mobile-header">
+    <div class="mobile-header-logo">
+        <div class="logo-icon">I</div>
+        <span class="logo-text">INOTEK<span class="text-blue-500">2026</span></span>
+    </div>
+    <div class="mobile-header-actions">
+        <button class="mobile-action-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+        <button class="mobile-action-btn" onclick="toggleTheme()" id="theme-btn-mob"><i class="fas fa-sun"></i></button>
+    </div>
+</header>
+
+<!-- ===== MOBILE BOTTOM NAV ===== -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner px-2">
+        <button class="bnav-item aktif" data-bnav="beranda" onclick="pindahHalaman('beranda')">
+            <i class="fas fa-home"></i><span>Beranda</span>
+        </button>
+        <button class="bnav-item" data-bnav="artikel" onclick="pindahHalaman('artikel')">
+            <i class="fas fa-newspaper"></i><span>Artikel</span>
+        </button>
+        <button class="bnav-item" data-bnav="fitur" onclick="pindahHalaman('fitur')">
+            <i class="fas fa-microchip"></i><span>Fitur</span>
+        </button>
+        <button class="bnav-item" data-bnav="rubrik" onclick="pindahHalaman('rubrik')">
+            <i class="fas fa-layer-group"></i><span>Rubrik</span>
+        </button>
+        <button class="bnav-item" data-bnav="editorial" onclick="pindahHalaman('editorial')">
+            <i class="fas fa-pen-fancy"></i><span>Editorial</span>
+        </button>
+        <button class="bnav-item" data-bnav="tentang" onclick="pindahHalaman('tentang')">
+            <i class="fas fa-users"></i><span>Tim</span>
+        </button>
+    </div>
+</nav>
+
+<!-- ===== SEARCH PANEL ===== -->
+<div id="search-panel">
+    <div class="search-header">
+        <button class="search-close-btn" onclick="toggleSearch()"><i class="fas fa-arrow-left"></i></button>
+        <input type="text" id="search-input" placeholder="Cari artikel, fitur, rubrik..." oninput="jalankanSearch(this.value)" autofocus>
+    </div>
+    <div id="search-results">
+        <div class="search-empty">
+            <i class="fas fa-search text-4xl mb-4 opacity-20"></i>
+            <p class="text-sm">Ketik untuk mencari konten di INOTEK 2026</p>
+        </div>
+    </div>
+</div>
+
+<!-- ============================= BERANDA ============================= -->
+<main id="beranda" class="halaman-konten halaman-aktif">
+    <section class="min-h-screen flex flex-col items-center justify-center p-4 pt-20 pb-6 gap-6">
+        <div class="sampul-majalah">
+            <div class="cover-img-wrap relative min-h-[260px] md:min-h-[450px]">
+                <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=1200" alt="Seni Digital" class="w-full h-full object-cover absolute inset-0">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10">
+                    <p class="text-blue-500 font-bold tracking-widest text-xs mb-1">EDISI 01: MANUSIA & MESIN</p>
+                    <h2 class="text-2xl md:text-4xl font-bold">SIMBIOSIS DIGITAL</h2>
+                </div>
+            </div>
+            <div class="cover-text-wrap p-6 md:p-12 flex flex-col justify-between bg-[#050505] min-h-[260px]">
+                <div>
+                    <h1 class="text-5xl md:text-7xl font-black italic mb-3 tracking-tighter">INOTEK</h1>
+                    <p class="text-slate-400 font-medium tracking-[0.2em] text-xs mb-6 uppercase">Navigasi Inovasi Akademik</p>
+                    <h2 class="judul-sampul text-lg md:text-2xl font-semibold leading-tight text-white/90 mb-4">Masa Depan <span class="text-blue-600">Pendidikan Tinggi</span> di Bawah Kendali Anda.</h2>
+                    <p class="text-slate-500 text-xs leading-relaxed hidden md:block">Menjelajahi peran kecerdasan buatan, bioinformatika, dan ruang hibrida dalam ekosistem kampus 2026.</p>
+                </div>
+                <button onclick="pindahHalaman('artikel')" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white py-3 rounded-xl font-bold text-xs tracking-widest transition-all mt-4">BACA EDISI PERDANA</button>
+            </div>
+        </div>
+        <!-- Scroll hint (desktop only) -->
+        <div class="scroll-hint hidden md:flex flex-col items-center gap-2 text-slate-600 text-xs">
+            <span>Gulir untuk info lebih</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <!-- Quick nav cards (mobile) -->
+        <div class="grid grid-cols-2 gap-3 w-full md:hidden">
+            <button onclick="pindahHalaman('artikel')" class="kartu-rubrik flex items-center gap-3 text-left">
+                <i class="fas fa-newspaper text-blue-400 text-lg"></i>
+                <div><p class="text-xs font-bold">Artikel</p><p class="text-[10px] text-slate-500">4 Penulis</p></div>
+            </button>
+            <button onclick="pindahHalaman('fitur')" class="kartu-rubrik flex items-center gap-3 text-left">
+                <i class="fas fa-microchip text-purple-400 text-lg"></i>
+                <div><p class="text-xs font-bold">Fitur Inti</p><p class="text-[10px] text-slate-500">2 Inovasi</p></div>
+            </button>
+            <button onclick="pindahHalaman('rubrik')" class="kartu-rubrik flex items-center gap-3 text-left">
+                <i class="fas fa-layer-group text-green-400 text-lg"></i>
+                <div><p class="text-xs font-bold">Rubrik</p><p class="text-[10px] text-slate-500">4 Kategori</p></div>
+            </button>
+            <button onclick="pindahHalaman('tentang')" class="kartu-rubrik flex items-center gap-3 text-left">
+                <i class="fas fa-users text-yellow-400 text-lg"></i>
+                <div><p class="text-xs font-bold">Tim</p><p class="text-[10px] text-slate-500">Dewan Redaksi</p></div>
+            </button>
+        </div>
+    </section>
+</main>
+
+<!-- ============================= ARTIKEL ============================= -->
+<main id="artikel" class="halaman-konten pt-20 md:pt-36 pb-8">
+    <!-- Pill navigation artikel -->
+    <div class="artikel-pills sticky top-14 md:top-20 z-10 bg-[var(--latar-dalam)] pt-3">
+        <button class="pill-btn aktif" onclick="scrollKeArtikel(0, this)">Fares</button>
+        <button class="pill-btn" onclick="scrollKeArtikel(1, this)">Omar</button>
+        <button class="pill-btn" onclick="scrollKeArtikel(2, this)">Dhika</button>
+        <button class="pill-btn" onclick="scrollKeArtikel(3, this)">Muhalif</button>
+    </div>
+
+    <div class="artikel-container max-w-3xl mx-auto px-4 md:px-6">
+
+        <!-- Artikel 1: Fares -->
+        <article class="mb-20 md:mb-32" id="art-0">
+            <header class="mb-6">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                    <span class="text-blue-500 text-xs font-bold tracking-widest uppercase">Kecerdasan Buatan</span>
+                    <span class="reading-time-badge"><i class="fas fa-clock"></i> 4 mnt baca</span>
+                </div>
+                <h2 class="artikel-judul text-3xl md:text-5xl font-extrabold my-3 leading-tight">Kedaulatan Kognitif Mahasiswa</h2>
+                <div class="profil-penulis mt-4">
+                    <div class="profil-penulis-avatar" style="background: linear-gradient(135deg,#1e3a8a,#2563eb);">F</div>
+                    <div class="profil-penulis-info">
+                        <div class="nama">Fares Maulidda Magruf</div>
+                        <div class="posisi text-blue-400">Ketua Redaksi & Penulis Utama</div>
+                        <div class="bio">Mahasiswa Informatika angkatan 2025, fokus riset pada etika AI dan literasi digital.</div>
                     </div>
                 </div>
-                <div class="p-12 flex flex-col justify-between bg-[#050505]">
-                    <div>
-                        <h1 class="text-7xl font-black italic mb-4 tracking-tighter">INOTEK</h1>
-                        <p class="text-slate-400 font-medium tracking-[0.3em] text-xs mb-10 uppercase">Navigasi Inovasi Akademik</p>
-                        <h2 class="text-2xl font-semibold leading-tight text-white/90 mb-6">Masa Depan <span class="text-blue-600">Pendidikan Tinggi</span> di Bawah Kendali Anda.</h2>
-                        <p class="text-slate-500 text-sm leading-relaxed">Menjelajahi peran kecerdasan buatan, bioinformatika, dan ruang hibrida dalam ekosistem kampus 2026.</p>
+                <div class="flex gap-2 flex-wrap">
+                    <button class="bookmark-btn" onclick="toggleBookmark(this, 'Kedaulatan Kognitif Mahasiswa')"><i class="far fa-bookmark"></i> Simpan</button>
+                    <button class="share-btn" onclick="bagikanArtikel('Kedaulatan Kognitif Mahasiswa')"><i class="fas fa-share-nodes"></i> Bagikan</button>
+                </div>
+            </header>
+            <div class="isi-artikel">
+                <p>Bayangkan sebuah pagi di kampus tahun 2026: seorang mahasiswa duduk di depan layar, mengetik pertanyaan riset kepada sebuah sistem AI yang dalam hitungan detik menghasilkan draft esai sepanjang lima halaman. Momen itulah yang menginspirasi saya menulis artikel ini — bukan karena kekagumannya, melainkan karena kegelisahannya. <em>Di mana batas antara bantuan dan ketergantungan?</em></p>
+                <p>Dalam Edisi 1 ini, saya mengulas bagaimana kecerdasan buatan generatif telah mengubah struktur kognitif kita secara fundamental. Fenomena ini menciptakan pergeseran paradigma dari pengolahan informasi manual menuju orkestrasi algoritma. Fokus utama tulisan ini adalah strategi mempertahankan 'Agensi Manusia' — di mana mahasiswa tetap menjadi validator tunggal atas setiap luaran kecerdasan buatan.</p>
+                <p>Lebih jauh lagi, kedaulatan kognitif menuntut kita untuk memahami batasan antara asisten digital dan pemikiran kritis orisinal. Kita harus mampu memanfaatkan AI sebagai 'Exoskeleton Mental' yang memperkuat daya analisis, bukan sebagai pengganti proses berpikir itu sendiri.</p>
+                <p>Melalui riset ini, saya menekankan pentingnya kurikulum literasi AI yang tidak hanya mengajarkan cara menggunakan alat, tetapi juga cara mengkritik algoritma tersebut.</p>
+            </div>
+            <div class="panel-tinjauan">
+                <p class="text-xs font-bold text-blue-400 uppercase">Tinjauan: Dhika Aditia</p>
+                <p class="text-sm italic mt-2">"Perspektif yang sangat krusial bagi integritas akademik di masa depan."</p>
+            </div>
+            <div class="blok-referensi">
+                <p class="ref-judul">Referensi</p>
+                <ol>
+                    <li><span>Cope, B. & Kalantzis, M.</span> (2022). <em>AI in Education: The Challenges of Human Agency.</em> Journal of Learning Sciences, 31(2), 45–67.</li>
+                    <li><span>Floridi, L. et al.</span> (2021). <em>An Ethical Framework for a Good AI Society.</em> Minds and Machines, 28(4), 689–707.</li>
+                    <li><span>UNESCO.</span> (2023). <em>Recommendation on the Ethics of Artificial Intelligence.</em> Paris: UNESCO.</li>
+                    <li><span>Zawacki-Richter, O. et al.</span> (2019). <em>Systematic Review of AI in Higher Education.</em> Int. Journal of Educational Technology, 16(1).</li>
+                </ol>
+            </div>
+        </article>
+        <hr class="artikel-divider">
+
+        <!-- Artikel 2: Omar -->
+        <article class="mb-20 md:mb-32" id="art-1">
+            <header class="mb-6">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                    <span class="text-purple-500 text-xs font-bold tracking-widest uppercase">Desain Antarmuka</span>
+                    <span class="reading-time-badge"><i class="fas fa-clock"></i> 3 mnt baca</span>
+                </div>
+                <h2 class="artikel-judul text-3xl md:text-5xl font-extrabold my-3 leading-tight">Psikologi Visual dalam Edukasi</h2>
+                <div class="profil-penulis mt-4">
+                    <div class="profil-penulis-avatar" style="background: linear-gradient(135deg,#4c1d95,#7c3aed);">O</div>
+                    <div class="profil-penulis-info">
+                        <div class="nama">Omar Thareq</div>
+                        <div class="posisi" style="color:#7c3aed;">Design & Isi Redaksi</div>
+                        <div class="bio">Mahasiswa SI, bertanggung jawab atas identitas visual INOTEK 2026.</div>
                     </div>
-                    <button onclick="pindahHalaman('artikel')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold text-xs tracking-widest transition-all">BACA EDISI PERDANA</button>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <button class="bookmark-btn" onclick="toggleBookmark(this, 'Psikologi Visual dalam Edukasi')"><i class="far fa-bookmark"></i> Simpan</button>
+                    <button class="share-btn" onclick="bagikanArtikel('Psikologi Visual dalam Edukasi')"><i class="fas fa-share-nodes"></i> Bagikan</button>
+                </div>
+            </header>
+            <div class="isi-artikel">
+                <p>Pertama kali saya membuka sebuah platform akademik digital yang penuh dengan teks rapat, tombol mencolok, dan warna-warna yang bersaing satu sama lain, saya langsung menutupnya. Bukan karena kontennya buruk — tetapi karena mataku lelah bahkan sebelum membaca satu paragraf pun.</p>
+                <p>Desain bukan hanya tentang estetika, melainkan tentang efisiensi transmisi informasi dan optimalisasi beban kognitif. Saya membedah bagaimana majalah INOTEK ini dibangun dengan antarmuka yang mengadopsi prinsip 'Minimalisme Informatif' — setiap elemen visual dirancang untuk memandu alur pandangan pembaca secara intuitif.</p>
+                <p>Penerapan psikologi Gestalt dalam tata letak digital membantu mengarahkan atensi pengguna pada poin-poin krusial melalui kontras dan ruang negatif. Penelitian kami menunjukkan tata letak yang bersih meningkatkan daya serap materi teknis hingga 35%.</p>
+                <p>Visi saya adalah menciptakan standar baru dalam media akademik digital di mana teknologi antarmuka berperan aktif mempercepat pemahaman, bukan sekadar wadah statis bagi teks dan gambar.</p>
+            </div>
+            <div class="panel-tinjauan">
+                <p class="text-xs font-bold text-purple-400 uppercase">Tinjauan: Muhalif Noferi</p>
+                <p class="text-sm italic mt-2">"Implementasi desain yang bersih sangat membantu proses pemahaman konten teknis."</p>
+            </div>
+            <div class="blok-referensi">
+                <p class="ref-judul">Referensi</p>
+                <ol>
+                    <li><span>Mayer, R. E.</span> (2020). <em>Multimedia Learning</em> (3rd ed.). Cambridge University Press.</li>
+                    <li><span>Sweller, J.</span> (2019). <em>Cognitive Load Theory and Educational Technology.</em> ETRD, 68, 1–16.</li>
+                    <li><span>Nielsen, J. & Loranger, H.</span> (2006). <em>Prioritizing Web Usability.</em> New Riders Publishing.</li>
+                    <li><span>Krug, S.</span> (2014). <em>Don't Make Me Think, Revisited.</em> New Riders Press.</li>
+                </ol>
+            </div>
+        </article>
+        <hr class="artikel-divider">
+
+        <!-- Artikel 3: Dhika -->
+        <article class="mb-20 md:mb-32" id="art-2">
+            <header class="mb-6">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                    <span class="text-green-500 text-xs font-bold tracking-widest uppercase">Etika Data</span>
+                    <span class="reading-time-badge"><i class="fas fa-clock"></i> 4 mnt baca</span>
+                </div>
+                <h2 class="artikel-judul text-3xl md:text-5xl font-extrabold my-3 leading-tight">Privasi di Tengah Transparansi Digital</h2>
+                <div class="profil-penulis mt-4">
+                    <div class="profil-penulis-avatar" style="background: linear-gradient(135deg,#064e3b,#059669);">D</div>
+                    <div class="profil-penulis-info">
+                        <div class="nama">Dhika Aditia</div>
+                        <div class="posisi" style="color:#059669;">Penyunting Bahasa & Anggota Redaksi</div>
+                        <div class="bio">Aktif dalam kajian keamanan siber dan perlindungan data pribadi.</div>
+                    </div>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <button class="bookmark-btn" onclick="toggleBookmark(this, 'Privasi di Tengah Transparansi Digital')"><i class="far fa-bookmark"></i> Simpan</button>
+                    <button class="share-btn" onclick="bagikanArtikel('Privasi di Tengah Transparansi Digital')"><i class="fas fa-share-nodes"></i> Bagikan</button>
+                </div>
+            </header>
+            <div class="isi-artikel">
+                <p>Suatu hari, seorang teman bercerita bahwa aplikasi kampusnya secara otomatis mendeteksi bahwa ia "kurang fokus" selama kuliah — berdasarkan pola tatapan matanya yang direkam kamera laptop. Ia tidak pernah menandatangani persetujuan eksplisit untuk pemantauan itu. Kisah ini terasa fiksi, tetapi ia adalah kenyataan yang sedang kita hadapi hari ini.</p>
+                <p>Seiring meningkatnya pemanfaatan data biometrik dan analitik perilaku di ekosistem kampus, muncul urgensi untuk melindungi hak privasi individu secara teknis maupun legal. Saya mengeksplorasi batas-batas etis dalam penggunaan sensor kognitif dan algoritma pelacakan kehadiran.</p>
+                <p>Transparansi bukan berarti ketiadaan rahasia, melainkan kejelasan mengenai tata kelola akses terhadap jejak digital kita. Implementasi enkripsi <em>end-to-end</em> dan protokol anonimisasi data menjadi syarat mutlak dalam membangun kepercayaan antara institusi dan civitas akademika.</p>
+                <p>Tujuan akhirnya adalah ekosistem digital yang aman, di mana inovasi berjalan selaras dengan perlindungan hak fundamental manusia.</p>
+            </div>
+            <div class="panel-tinjauan">
+                <p class="text-xs font-bold text-green-400 uppercase">Tinjauan: Fares Maulidda</p>
+                <p class="text-sm italic mt-2">"Pengingat penting bagi kita semua bahwa data adalah cerminan identitas diri."</p>
+            </div>
+            <div class="blok-referensi">
+                <p class="ref-judul">Referensi</p>
+                <ol>
+                    <li><span>Solove, D. J.</span> (2021). <em>The Myth of the Privacy Paradox.</em> GW Law Review, 89(1).</li>
+                    <li><span>Zuboff, S.</span> (2019). <em>The Age of Surveillance Capitalism.</em> PublicAffairs.</li>
+                    <li><span>GDPR.</span> (2018). <em>General Data Protection Regulation (EU) 2016/679.</em></li>
+                    <li><span>Nissenbaum, H.</span> (2010). <em>Privacy in Context.</em> Stanford University Press.</li>
+                </ol>
+            </div>
+        </article>
+        <hr class="artikel-divider">
+
+        <!-- Artikel 4: Muhalif -->
+        <article class="mb-12" id="art-3">
+            <header class="mb-6">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                    <span class="text-yellow-500 text-xs font-bold tracking-widest uppercase">Visi Masa Depan</span>
+                    <span class="reading-time-badge"><i class="fas fa-clock"></i> 3 mnt baca</span>
+                </div>
+                <h2 class="artikel-judul text-3xl md:text-5xl font-extrabold my-3 leading-tight">Konklusi Ekosistem Hibrida 2026</h2>
+                <div class="profil-penulis mt-4">
+                    <div class="profil-penulis-avatar" style="background: linear-gradient(135deg,#78350f,#d97706);">M</div>
+                    <div class="profil-penulis-info">
+                        <div class="nama">Muhalif Noferi</div>
+                        <div class="posisi" style="color:#d97706;">Chief Editor & Anggota Redaksi</div>
+                        <div class="bio">Bertanggung jawab atas konsistensi visi dan kualitas keseluruhan konten INOTEK 2026.</div>
+                    </div>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <button class="bookmark-btn" onclick="toggleBookmark(this, 'Konklusi Ekosistem Hibrida 2026')"><i class="far fa-bookmark"></i> Simpan</button>
+                    <button class="share-btn" onclick="bagikanArtikel('Konklusi Ekosistem Hibrida 2026')"><i class="fas fa-share-nodes"></i> Bagikan</button>
+                </div>
+            </header>
+            <div class="isi-artikel">
+                <p>Ketika kami memulai proyek ini beberapa bulan lalu, ada satu pertanyaan yang terus menghantui diskusi tim: <em>Apakah kita sedang membangun masa depan pendidikan, atau justru sedang menyaksikan kita kehilangan sesuatu yang sangat manusiawi darinya?</em> Pertanyaan ini tidak pernah benar-benar terjawab — dan mungkin memang tidak seharusnya.</p>
+                <p>Sebagai penutup edisi perdana, saya merangkum visi tim mengenai transformasi kampus menjadi entitas hibrida yang terintegrasi secara organik. Integrasi antara ruang fisik dan digital menciptakan metode pembelajaran yang lebih personal, adaptif, dan inklusif.</p>
+                <p>Ekosistem hibrida masa depan didasarkan pada sinkronisasi interaksi sosial tatap muka dengan asimilasi data digital yang masif. Tantangan terbesarnya adalah menjaga kualitas interaksi manusia agar tidak tergerus oleh efisiensi teknologi.</p>
+                <p>Kesimpulan dari edisi ini menegaskan bahwa teknologi hanyalah <em>enabler</em>, sementara semangat kritis dan kolaborasi antar-manusia tetap menjadi motor penggerak utama kemajuan peradaban ilmiah kita.</p>
+            </div>
+            <div class="panel-tinjauan">
+                <p class="text-xs font-bold text-yellow-400 uppercase">Tinjauan: Omar Thareq</p>
+                <p class="text-sm italic mt-2">"Sebuah rangkuman yang sangat komprehensif untuk menutup perjalanan edisi pertama ini."</p>
+            </div>
+            <div class="blok-referensi">
+                <p class="ref-judul">Referensi</p>
+                <ol>
+                    <li><span>Bonk, C. J. & Graham, C. R.</span> (2006). <em>The Handbook of Blended Learning.</em> Pfeiffer.</li>
+                    <li><span>OECD.</span> (2023). <em>Education at a Glance 2023.</em> OECD Publishing.</li>
+                    <li><span>Selwyn, N.</span> (2019). <em>Should Robots Replace Teachers?</em> Polity Press.</li>
+                    <li><span>Garrison, D. R.</span> (2017). <em>E-Learning in the 21st Century.</em> Routledge.</li>
+                </ol>
+            </div>
+        </article>
+    </div>
+</main>
+
+<!-- ============================= FITUR INTI ============================= -->
+<main id="fitur" class="halaman-konten pt-20 md:pt-36 px-4 md:px-6 pb-8">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12 md:mb-20">
+            <h2 class="text-4xl md:text-5xl font-black mb-4 italic uppercase tracking-tighter">Inovasi Teknologi</h2>
+            <p class="text-slate-400 max-w-xl mx-auto text-sm">Eksplorasi mendalam dua fitur utama hasil riset kolektif tim INOTEK.</p>
+        </div>
+        <div class="fitur-grid grid grid-cols-1 md:grid-cols-2 gap-6 mb-16 md:mb-24">
+            <div class="kartu-fitur rounded-[28px] p-8 group" onclick="bukaOverlay(1)">
+                <div class="flex justify-between items-start mb-8">
+                    <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-all">
+                        <i class="fas fa-vr-cardboard text-xl group-hover:text-white"></i>
+                    </div>
+                    <span class="text-[9px] font-mono text-slate-500 uppercase">Dhika Aditia</span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-3">Pedagogi Realitas Terbaur</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">Penerapan simulasi laboratorium 3D yang menggabungkan objek fisik dengan luaran digital secara waktu nyata.</p>
+                <span class="text-blue-500 font-bold text-xs tracking-widest uppercase">Baca Detail Teknis →</span>
+            </div>
+            <div class="kartu-fitur rounded-[28px] p-8 group" onclick="bukaOverlay(2)">
+                <div class="flex justify-between items-start mb-8">
+                    <div class="w-14 h-14 bg-purple-600/10 rounded-2xl flex items-center justify-center group-hover:bg-purple-600 transition-all">
+                        <i class="fas fa-brain text-xl group-hover:text-white"></i>
+                    </div>
+                    <span class="text-[9px] font-mono text-slate-500 uppercase">Fares Maulidda</span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-3">Sistem Umpan Balik Neural</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">Monitoring gelombang otak Alpha dan Theta untuk mengoptimalkan kondisi konsentrasi maksimal (Flow State).</p>
+                <span class="text-purple-500 font-bold text-xs tracking-widest uppercase">Baca Detail Teknis →</span>
+            </div>
+        </div>
+
+        <!-- OPINI PENGUNJUNG -->
+        <section class="max-w-2xl mx-auto border-t border-white/5 pt-12 pb-12">
+            <h3 class="text-xl md:text-2xl font-bold text-center mb-8">Kolom Opini Pengunjung</h3>
+            <div class="bg-[#161b22] p-6 md:p-8 rounded-3xl border border-white/5 mb-8">
+                <p class="text-xs text-slate-400 mb-3 font-semibold uppercase tracking-widest">Bagikan Pemikiran Anda</p>
+                <textarea id="opini-input" class="w-full bg-transparent border border-white/10 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500 mb-4 h-28" placeholder="Sampaikan pandangan kritis Anda..."></textarea>
+                <div class="flex justify-between items-center flex-wrap gap-3">
+                    <span class="text-[10px] text-slate-500 italic">*Setelah verifikasi redaksi.</span>
+                    <button onclick="kirimOpini()" class="bg-white text-black px-6 py-2.5 rounded-xl font-bold text-xs tracking-widest transition hover:bg-blue-600 hover:text-white">UNGGAH</button>
+                </div>
+            </div>
+            <div id="opini-list" class="space-y-4"></div>
+        </section>
+    </div>
+</main>
+
+<!-- ============================= RUBRIK ============================= -->
+<main id="rubrik" class="halaman-konten pt-20 md:pt-36 px-4 md:px-6 pb-8">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12 md:mb-20">
+            <h2 class="text-4xl md:text-5xl font-black mb-4 italic uppercase tracking-tighter">Rubrik Edisi 01</h2>
+            <p class="text-slate-400 max-w-xl mx-auto text-sm">Variasi konten pilihan redaksi.</p>
+        </div>
+
+        <!-- Editorial Khusus -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-9 h-9 bg-blue-600/20 rounded-xl flex items-center justify-center"><i class="fas fa-pen-nib text-blue-400 text-sm"></i></div>
+                <h3 class="text-xl font-bold">Editorial Khusus</h3>
+            </div>
+            <div class="bg-[#161b22] border border-white/5 rounded-[24px] p-6 md:p-10">
+                <span class="badge-rubrik bg-blue-600/20 text-blue-400">EDITORIAL KHUSUS</span>
+                <h4 class="text-xl md:text-2xl font-bold mb-3">Saat Mesin Menjadi Rekan Peneliti</h4>
+                <p class="text-slate-400 text-sm leading-relaxed mb-4">Dalam konteks penelitian ilmiah, peran AI generatif kini melampaui sekadar alat bantu penulisan. Di beberapa universitas terkemuka, model bahasa besar digunakan untuk merumuskan hipotesis, mengidentifikasi gap literatur, bahkan mengusulkan desain eksperimen. Fenomena ini memunculkan pertanyaan mendasar: apakah mesin dapat menjadi co-author yang sah?</p>
+                <p class="text-slate-400 text-sm leading-relaxed">Tim INOTEK berpendapat bahwa jawaban bukan sekadar ya atau tidak — melainkan tentang membangun kerangka akuntabilitas baru. Setiap kontribusi AI harus didokumentasikan secara transparan, dan peneliti manusia harus tetap bertanggung jawab penuh.</p>
+                <div class="mt-5 pt-5 border-t border-white/5">
+                    <p class="text-xs text-slate-500">Ditulis oleh <span class="text-white font-semibold">Tim Redaksi INOTEK</span> • Edisi 01, 2026</p>
                 </div>
             </div>
         </section>
-    </main>
 
-    <!-- HALAMAN ARTIKEL (4 PENULIS) -->
-    <main id="artikel" class="halaman-konten pt-40 px-6">
-        <div class="max-w-3xl mx-auto">
-            
-            <!-- Artikel 1: Fares -->
-            <article class="mb-32">
-                <header class="mb-8">
-                    <span class="text-blue-500 text-xs font-bold tracking-widest uppercase">Kecerdasan Buatan</span>
-                    <h2 class="text-5xl font-extrabold my-4 leading-tight">Kedaulatan Kognitif Mahasiswa</h2>
-                    <div class="flex items-center space-x-4 text-sm text-slate-400">
-                        <span class="font-bold text-white">Fares Maulidda Magruf</span>
-                        <span>•</span>
-                        <span>Penulis Utama</span>
-                    </div>
-                </header>
-                <div class="isi-artikel">
-                    <p>Dalam Edisi 1 ini, saya mengulas bagaimana kecerdasan buatan generatif telah mengubah struktur kognitif kita secara fundamental. Fenomena ini menciptakan pergeseran paradigma dari pengolahan informasi manual menuju orkestrasi algoritma. Fokus utama tulisan ini adalah strategi mempertahankan 'Agensi Manusia' di mana mahasiswa tetap menjadi validator tunggal atas setiap luaran kecerdasan buatan, memastikan integritas akademik tetap terjaga di era otomatisasi massal.</p>
-                    <p>Lebih jauh lagi, kedaulatan kognitif menuntut kita untuk memahami batasan antara asisten digital dan pemikiran kritis orisinal. Transformasi ini mengharuskan institusi pendidikan untuk mendefinisikan ulang makna kecerdasan dalam konteks kolaborasi manusia-AI. Kita harus mampu memanfaatkan AI sebagai 'Exoskeleton Mental' yang memperkuat daya analisis, bukan sebagai pengganti proses berpikir itu sendiri, sehingga setiap keputusan akademik tetap berbasis pada nilai etika dan penalaran manusia yang mendalam.</p>
-                    <p>Melalui riset ini, saya menekankan pentingnya kurikulum literasi AI yang tidak hanya mengajarkan cara menggunakan alat, tetapi juga cara mengkritik algoritma tersebut. Mahasiswa masa depan harus menjadi 'Arsitek Solusi' yang memahami bias data dan mampu melakukan audit mandiri terhadap hasil kerja mesin.</p>
-                </div>
-                <div class="panel-tinjauan">
-                    <p class="text-xs font-bold text-blue-400 uppercase">Tinjauan: Dhika Aditia</p>
-                    <p class="text-sm italic mt-2">"Perspektif yang sangat krusial bagi integritas akademik di masa depan."</p>
-                </div>
-            </article>
-
-            <!-- Artikel 2: Omar -->
-            <article class="mb-32">
-                <header class="mb-8">
-                    <span class="text-purple-500 text-xs font-bold tracking-widest uppercase">Desain Antarmuka</span>
-                    <h2 class="text-5xl font-extrabold my-4 leading-tight">Psikologi Visual dalam Edukasi</h2>
-                    <div class="flex items-center space-x-4 text-sm text-slate-400">
-                        <span class="font-bold text-white">Omar Thareq</span>
-                        <span>•</span>
-                        <span>Penulis Utama</span>
-                    </div>
-                </header>
-                <div class="isi-artikel">
-                    <p>Desain bukan hanya tentang estetika, melainkan tentang efisiensi transmisi informasi dan optimalisasi beban kognitif. Saya membedah bagaimana majalah INOTEK ini dibangun dengan antarmuka yang mengadopsi prinsip 'Minimalisme Informatif'. Setiap elemen visual, mulai dari pemilihan warna hingga jarak antar baris teks, dirancang untuk memandu alur pandangan pembaca secara intuitif tanpa menimbulkan kelelahan visual yang sering terjadi pada platform digital konvensional.</p>
-                    <p>Penerapan psikologi Gestalt dalam tata letak digital membantu mengarahkan atensi pengguna pada poin-poin krusial melalui kontras dan ruang negatif. Dengan memanfaatkan hierarki tipografi yang ketat, kita menciptakan lingkungan baca yang meditatif namun tetap informatif. Penelitian desain kami menunjukkan bahwa tata letak yang bersih dan terstruktur mampu meningkatkan daya serap materi teknis hingga 35%, karena otak tidak perlu membuang energi untuk memproses elemen dekoratif yang tidak relevan.</p>
-                    <p>Visi saya adalah menciptakan standar baru dalam media akademik digital di mana teknologi antarmuka berperan aktif dalam mempercepat proses pemahaman, bukan sekadar menjadi wadah statis bagi teks dan gambar.</p>
-                </div>
-                <div class="panel-tinjauan">
-                    <p class="text-xs font-bold text-purple-400 uppercase">Tinjauan: Muhalif Noferi</p>
-                    <p class="text-sm italic mt-2">"Implementasi desain yang bersih sangat membantu proses pemahaman konten teknis."</p>
-                </div>
-            </article>
-
-            <!-- Artikel 3: Dhika -->
-            <article class="mb-32">
-                <header class="mb-8">
-                    <span class="text-green-500 text-xs font-bold tracking-widest uppercase">Etika Data</span>
-                    <h2 class="text-5xl font-extrabold my-4 leading-tight">Privasi di Tengah Transparansi Digital</h2>
-                    <div class="flex items-center space-x-4 text-sm text-slate-400">
-                        <span class="font-bold text-white">Dhika Aditia</span>
-                        <span>•</span>
-                        <span>Penulis Utama</span>
-                    </div>
-                </header>
-                <div class="isi-artikel">
-                    <p>Seiring meningkatnya pemanfaatan data biometrik dan analitik perilaku di ekosistem kampus, muncul urgensi untuk melindungi hak privasi individu secara teknis maupun legal. Saya mengeksplorasi batas-batas etis dalam penggunaan sensor kognitif dan algoritma pelacakan kehadiran agar teknologi tetap berfungsi sebagai alat pendukung pembelajaran tanpa mencederai hak privasi dan otonomi pribadi mahasiswa.</p>
-                    <p>Transparansi bukan berarti ketiadaan rahasia, melainkan kejelasan mengenai tata kelola akses terhadap jeqak digital kita. Dalam analisis ini, saya menekankan pentingnya kedaulatan data di mana setiap individu memiliki kendali penuh atas informasi mereka. Implementasi sistem keamanan berbasis enkripsi *end-to-end* dan protokol anonimisasi data menjadi syarat mutlak dalam membangun kepercayaan antara institusi pendidikan dan civitas akademika.</p>
-                    <p>Tujuan akhirnya adalah menciptakan ekosistem digital yang aman, di mana inovasi teknologi berjalan selaras dengan perlindungan hak fundamental manusia, mencegah potensi penyalahgunaan data oleh pihak luar maupun algoritma yang bias.</p>
-                </div>
-                <div class="panel-tinjauan">
-                    <p class="text-xs font-bold text-green-400 uppercase">Tinjauan: Fares Maulidda</p>
-                    <p class="text-sm italic mt-2">"Pengingat penting bagi kita semua bahwa data adalah cerminan identitas diri."</p>
-                </div>
-            </article>
-
-            <!-- Artikel 4: Muhalif -->
-            <article class="mb-32">
-                <header class="mb-8">
-                    <span class="text-yellow-500 text-xs font-bold tracking-widest uppercase">Visi Masa Depan</span>
-                    <h2 class="text-5xl font-extrabold my-4 leading-tight">Konklusi Ekosistem Hibrida 2026</h2>
-                    <div class="flex items-center space-x-4 text-sm text-slate-400">
-                        <span class="font-bold text-white">Muhalif Noferi</span>
-                        <span>•</span>
-                        <span>Penulis Utama</span>
-                    </div>
-                </header>
-                <div class="isi-artikel">
-                    <p>Sebagai penutup edisi perdana, saya merangkum visi tim mengenai transformasi kampus menjadi entitas hibrida yang terintegrasi secara organik. Integrasi antara ruang fisik dan digital menciptakan metode pembelajaran yang lebih personal, adaptif, dan inklusif. Kita tidak lagi berbicara tentang 'kuliah online' atau 'kuliah offline', melainkan tentang 'pengalaman belajar kontinu' yang melampaui batasan ruang kelas tradisional.</p>
-                    <p>Ekosistem hibrida masa depan didasarkan pada sinkronisasi antara interaksi sosial tatap muka dengan asimilasi data digital yang masif. Masa depan pendidikan adalah sebuah ekosistem cair di mana batas-batasan institusi memudar, digantikan oleh jaringan kolaborasi global yang digerakkan oleh rasa ingin tahu. Tantangan terbesarnya adalah menjaga kualitas interaksi manusia agar tidak tergerus oleh efisiensi teknologi.</p>
-                    <p>Kesimpulan dari edisi ini menegaskan bahwa teknologi hanyalah enabler, sementara semangat kritis dan kolaborasi antar-manusia tetap menjadi motor penggerak utama kemajuan peradaban ilmiah kita di tahun 2026 dan seterusnya.</p>
-                </div>
-                <div class="panel-tinjauan">
-                    <p class="text-xs font-bold text-yellow-400 uppercase">Tinjauan: Omar Thareq</p>
-                    <p class="text-sm italic mt-2">"Sebuah rangkuman yang sangat komprehensif untuk menutup perjalanan edisi pertama ini."</p>
-                </div>
-            </article>
-        </div>
-    </main>
-
-    <!-- FITUR INTI -->
-    <main id="fitur" class="halaman-konten pt-40 px-6">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-5xl font-black mb-6 italic uppercase tracking-tighter">Inovasi Teknologi</h2>
-                <p class="text-slate-400 max-w-xl mx-auto">Eksplorasi mendalam dua fitur utama hasil riset kolektif tim INOTEK.</p>
+        <!-- Rekomendasi Tools -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-9 h-9 bg-purple-600/20 rounded-xl flex items-center justify-center"><i class="fas fa-toolbox text-purple-400 text-sm"></i></div>
+                <h3 class="text-xl font-bold">Rekomendasi Tools</h3>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
-                <div class="kartu-fitur rounded-[32px] p-10 group" onclick="bukaOverlay(1)">
-                    <div class="flex justify-between items-start mb-10">
-                        <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-all shadow-lg">
-                            <i class="fas fa-vr-cardboard text-2xl group-hover:text-white"></i>
-                        </div>
-                        <span class="text-[9px] font-mono text-slate-500 uppercase">Dhika Aditia</span>
-                    </div>
-                    <h3 class="text-3xl font-bold mb-4">Pedagogi Realitas Terbaur</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Penerapan simulasi laboratorium 3D yang menggabungkan objek fisik dengan luaran digital secara waktu nyata.</p>
-                    <span class="text-blue-500 font-bold text-xs tracking-widest uppercase">Baca Detail Teknis →</span>
+            <div class="tools-grid grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="kartu-rubrik">
+                    <span class="badge-rubrik bg-purple-600/20 text-purple-400">AI WRITING</span>
+                    <h4 class="font-bold mb-2">Notion AI</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Asisten penulisan akademik berbasis AI, ideal untuk merangkum jurnal dan membuat outline riset.</p>
+                    <p class="text-[10px] text-slate-600 mt-3 font-mono">★★★★☆ Direkomendasikan</p>
                 </div>
-
-                <div class="kartu-fitur rounded-[32px] p-10 group" onclick="bukaOverlay(2)">
-                    <div class="flex justify-between items-start mb-10">
-                        <div class="w-16 h-16 bg-purple-600/10 rounded-2xl flex items-center justify-center group-hover:bg-purple-600 transition-all shadow-lg">
-                            <i class="fas fa-brain text-2xl group-hover:text-white"></i>
-                        </div>
-                        <span class="text-[9px] font-mono text-slate-500 uppercase">Fares Maulidda</span>
-                    </div>
-                    <h3 class="text-3xl font-bold mb-4">Sistem Umpan Balik Neural</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Monitoring gelombang otak Alpha dan Theta untuk mengoptimalkan kondisi konsentrasi maksimal (Flow State).</p>
-                    <span class="text-purple-500 font-bold text-xs tracking-widest uppercase">Baca Detail Teknis →</span>
+                <div class="kartu-rubrik">
+                    <span class="badge-rubrik bg-green-600/20 text-green-400">LITERATUR</span>
+                    <h4 class="font-bold mb-2">Zotero</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Manajer referensi open-source untuk pengumpulan dan sitasi sumber akademik secara otomatis.</p>
+                    <p class="text-[10px] text-slate-600 mt-3 font-mono">★★★★★ Pilihan Utama Tim</p>
+                </div>
+                <div class="kartu-rubrik">
+                    <span class="badge-rubrik bg-yellow-600/20 text-yellow-400">KOLABORASI</span>
+                    <h4 class="font-bold mb-2">Miro</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Papan kerja digital kolaboratif untuk brainstorming visual dan mind-mapping secara real-time.</p>
+                    <p class="text-[10px] text-slate-600 mt-3 font-mono">★★★★☆ Digunakan Tim</p>
                 </div>
             </div>
+        </section>
 
-            <!-- OPINI PENGUNJUNG -->
-            <section class="max-w-2xl mx-auto border-t border-white/5 pt-20 pb-20">
-                <h3 class="text-2xl font-bold text-center mb-10">Kolom Opini Pengunjung</h3>
-                <div class="bg-[#161b22] p-8 rounded-3xl border border-white/5 mb-10">
-                    <p class="text-xs text-slate-400 mb-4 font-semibold uppercase tracking-widest">Bagikan Pemikiran Anda</p>
-                    <textarea id="opini-input" class="w-full bg-transparent border border-white/10 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500 mb-4 h-32" placeholder="Sampaikan pandangan kritis Anda terhadap edisi ini..."></textarea>
-                    <div class="flex justify-between items-center">
-                        <span class="text-[10px] text-slate-500 italic">*Opini akan ditampilkan secara publik setelah verifikasi.</span>
-                        <button onclick="kirimOpini()" class="bg-white text-black px-8 py-3 rounded-xl font-bold text-xs tracking-widest transition hover:bg-blue-600 hover:text-white">UNGGAH OPINI</button>
+        <!-- Tren Teknologi -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-9 h-9 bg-green-600/20 rounded-xl flex items-center justify-center"><i class="fas fa-chart-line text-green-400 text-sm"></i></div>
+                <h3 class="text-xl font-bold">Tren Teknologi Minggu Ini</h3>
+            </div>
+            <div class="space-y-4">
+                <div class="kartu-rubrik flex items-start gap-4">
+                    <div class="text-2xl font-black text-white/10 font-mono flex-shrink-0 leading-none mt-1">01</div>
+                    <div>
+                        <span class="badge-rubrik bg-blue-600/20 text-blue-400">AI & PENDIDIKAN</span>
+                        <h4 class="font-bold mb-1 text-sm">Model Bahasa Multimodal Masuk Kelas</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Universitas di Eropa mulai mengintegrasikan LLM multimodal sebagai asisten pengajar adaptif dalam kelas fisik.</p>
                     </div>
                 </div>
-                <div id="opini-list" class="space-y-4">
+                <div class="kartu-rubrik flex items-start gap-4">
+                    <div class="text-2xl font-black text-white/10 font-mono flex-shrink-0 leading-none mt-1">02</div>
+                    <div>
+                        <span class="badge-rubrik bg-green-600/20 text-green-400">BIOINFORMATIKA</span>
+                        <h4 class="font-bold mb-1 text-sm">Genomika Terbuka untuk Mahasiswa</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Platform analisis DNA berbasis cloud kini tersedia gratis untuk mahasiswa sarjana.</p>
+                    </div>
                 </div>
-            </section>
-        </div>
-    </main>
-
-    <!-- EDITORIAL -->
-    <main id="editorial" class="halaman-konten pt-40 px-6 pb-20">
-        <div class="max-w-2xl mx-auto">
-            <h2 class="text-4xl font-black italic mb-10 tracking-tighter">CATATAN REDAKSI: EDISI 01</h2>
-            <div class="bg-white/5 p-12 rounded-[40px] border border-white/5 italic text-slate-300 leading-relaxed space-y-6">
-                <p>"Edisi perdana INOTEK 2026 merupakan bukti nyata kolaborasi antar-mahasiswa dalam menyikapi disrupsi digital. Dalam edisi ini, tim kami telah berhasil merampungkan empat riset mandiri yang mencakup aspek teknis maupun filosofis."</p>
-                <p>"Kami telah melakukan validasi silang (peer review) pada setiap artikel guna memastikan akurasi data. Selain itu, pengembangan antarmuka majalah ini dirancang secara internal untuk memberikan pengalaman imersif yang selaras dengan prinsip desain 2026."</p>
-                <p>"Pencapaian utama kami pada edisi ini adalah keberhasilan mengintegrasikan teknologi pemantauan kognitif dan simulasi realitas terbaur sebagai fondasi fitur interaktif majalah kami."</p>
-                <div class="pt-8 border-t border-white/10">
-                    <p class="text-white font-bold not-italic">Muhalif Noferi</p>
-                    <p class="text-xs text-blue-500 uppercase tracking-widest not-italic font-bold">Chief Editor</p>
+                <div class="kartu-rubrik flex items-start gap-4">
+                    <div class="text-2xl font-black text-white/10 font-mono flex-shrink-0 leading-none mt-1">03</div>
+                    <div>
+                        <span class="badge-rubrik bg-yellow-600/20 text-yellow-400">KEAMANAN DATA</span>
+                        <h4 class="font-bold mb-1 text-sm">Regulasi Data Mahasiswa Diperketat</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Indonesia tengah membahas regulasi perlindungan data mahasiswa yang lebih ketat menyusul insiden kebocoran dari platform edtech.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </section>
 
-    <!-- TIM -->
-    <main id="tentang" class="halaman-konten pt-40 px-6 pb-20">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="text-4xl font-black italic mb-20 uppercase">Dewan Redaksi</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Muhalif Noferi (Foto 1) -->
-                <div class="bg-[#161b22] p-8 rounded-3xl border border-white/5">
-                    <img src="11.jpg" alt="Muhalif" class="foto-redaksi">
-
-                    <h4 class="font-bold">Muhalif Noferi</h4>
-                    <p class="text-[10px] text-yellow-500 font-mono mb-4">2503015043</p>
-                    <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Anggota Redaksi</p>
+        <!-- Opini Pembaca -->
+        <section class="mb-4">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-9 h-9 bg-yellow-600/20 rounded-xl flex items-center justify-center"><i class="fas fa-comments text-yellow-400 text-sm"></i></div>
+                <h3 class="text-xl font-bold">Opini Pembaca Pilihan</h3>
+            </div>
+            <div class="opini-grid grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="kartu-rubrik">
+                    <p class="text-sm text-slate-300 italic leading-relaxed mb-4">"Majalah ini berhasil menjembatani bahasa teknis dengan penyajian yang bisa dipahami mahasiswa lintas jurusan."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-600/30 flex items-center justify-center text-xs font-bold">R</div>
+                        <div><p class="text-xs font-semibold">Rizky A.</p><p class="text-[10px] text-slate-500">Mhs. Teknik Informatika</p></div>
+                    </div>
                 </div>
-                <!-- Fares Maulidda Magruf (Foto 2) -->
-                <div class="bg-[#161b22] p-8 rounded-3xl border border-white/5">
-                    <img src="Fares.jpeg" class="foto-redaksi">
-                    <h4 class="font-bold">Fares Maulidda M.</h4>
-                    <p class="text-[10px] text-blue-500 font-mono mb-4">2503015015</p>
-                    <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Ketua & Penulis</p>
-                </div>
-                <!-- Omar Thareq (Foto 3) -->
-                <div class="bg-[#161b22] p-8 rounded-3xl border border-white/5">
-                    <img src="Omar.jpeg" class="foto-redaksi">
-                    <h4 class="font-bold">Omar Thareq</h4>
-                    <p class="text-[10px] text-purple-500 font-mono mb-4">2503015049</p>
-                    <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Design & Isi</p>
-                </div>
-                <!-- Dhika Aditia (Foto 4) -->
-                <div class="bg-[#161b22] p-8 rounded-3xl border border-white/5">
-                    <img src="Dhika.jpeg" class="foto-redaksi">
-                    <h4 class="font-bold">Dhika Aditia</h4>
-                    <p class="text-[10px] text-green-500 font-mono mb-4">2503015018</p>
-                    <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Penyunting Bahasa</p>
+                <div class="kartu-rubrik">
+                    <p class="text-sm text-slate-300 italic leading-relaxed mb-4">"Topik privasi data yang diangkat Dhika sangat relevan dengan kondisi kampus kita sekarang."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-green-600/30 flex items-center justify-center text-xs font-bold">S</div>
+                        <div><p class="text-xs font-semibold">Salsabila N.</p><p class="text-[10px] text-slate-500">Mhs. Sistem Informasi</p></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </section>
+    </div>
+</main>
 
-    <!-- OVERLAY FITUR -->
-    <div id="overlay-fitur" class="fixed inset-0 flex items-center justify-center px-6">
-        <div class="bg-[#161b22] w-full max-w-2xl rounded-[40px] border border-white/10 overflow-hidden shadow-2xl">
-            <div id="modal-header" class="h-40 flex items-center justify-center relative bg-blue-600">
-                <button onclick="tutupOverlay()" class="absolute top-8 right-8 text-white/50 hover:text-white text-2xl">
-                    <i class="fas fa-times"></i>
-                </button>
-                <i id="modal-icon" class="fas fa-star text-7xl text-white/10"></i>
-            </div>
-            <div class="p-12">
-                <h3 id="modal-title" class="text-3xl font-black mb-6">Judul Fitur</h3>
-                <div id="modal-content" class="text-slate-400 text-sm leading-relaxed space-y-4"></div>
+<!-- ============================= EDITORIAL ============================= -->
+<main id="editorial" class="halaman-konten pt-20 md:pt-36 px-4 md:px-6 pb-8">
+    <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-black italic mb-8 tracking-tighter">CATATAN REDAKSI: EDISI 01</h2>
+        <div class="bg-white/5 p-8 md:p-12 rounded-[32px] border border-white/5 italic text-slate-300 leading-relaxed space-y-5 text-sm md:text-base">
+            <p>"Edisi perdana INOTEK 2026 merupakan bukti nyata kolaborasi antar-mahasiswa dalam menyikapi disrupsi digital. Dalam edisi ini, tim kami telah berhasil merampungkan empat riset mandiri yang mencakup aspek teknis maupun filosofis."</p>
+            <p>"Kami telah melakukan validasi silang (peer review) pada setiap artikel guna memastikan akurasi data. Selain itu, pengembangan antarmuka majalah ini dirancang secara internal untuk memberikan pengalaman imersif yang selaras dengan prinsip desain 2026."</p>
+            <p>"Pencapaian utama kami adalah keberhasilan mengintegrasikan teknologi pemantauan kognitif dan simulasi realitas terbaur sebagai fondasi fitur interaktif majalah kami."</p>
+            <div class="pt-6 border-t border-white/10">
+                <p class="text-white font-bold not-italic">Muhalif Noferi</p>
+                <p class="text-xs text-blue-500 uppercase tracking-widest not-italic font-bold">Chief Editor</p>
             </div>
         </div>
     </div>
+</main>
 
-    <footer class="py-20 text-center opacity-30 border-t border-white/5 mt-20">
-        <p class="text-[9px] font-bold tracking-[0.6em] uppercase">Edisi 01 • Tim INOTEK 2026 • Proyek UTS</p>
-    </footer>
+<!-- ============================= TIM ============================= -->
+<main id="tentang" class="halaman-konten pt-20 md:pt-36 px-4 md:px-6 pb-8">
+    <div class="max-w-6xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-black italic mb-12 md:mb-20 uppercase">Dewan Redaksi</h2>
+        <div class="tim-grid grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+            <div class="bg-[#161b22] p-6 md:p-8 rounded-[24px] border border-white/5">
+                <img src="11.jpg" alt="Muhalif" class="foto-redaksi">
+                <h4 class="font-bold text-sm md:text-base">Muhalif Noferi</h4>
+                <p class="text-[10px] text-yellow-500 font-mono mb-3">2503015043</p>
+                <p class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest font-semibold">Chief Editor</p>
+            </div>
+            <div class="bg-[#161b22] p-6 md:p-8 rounded-[24px] border border-white/5">
+                <img src="Fares.jpeg" class="foto-redaksi">
+                <h4 class="font-bold text-sm md:text-base">Fares Maulidda M.</h4>
+                <p class="text-[10px] text-blue-500 font-mono mb-3">2503015015</p>
+                <p class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest font-semibold">Ketua & Penulis</p>
+            </div>
+            <div class="bg-[#161b22] p-6 md:p-8 rounded-[24px] border border-white/5">
+                <img src="Omar.jpeg" class="foto-redaksi">
+                <h4 class="font-bold text-sm md:text-base">Omar Thareq</h4>
+                <p class="text-[10px] text-purple-500 font-mono mb-3">2503015049</p>
+                <p class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest font-semibold">Design & Isi</p>
+            </div>
+            <div class="bg-[#161b22] p-6 md:p-8 rounded-[24px] border border-white/5">
+                <img src="Dhika.jpeg" class="foto-redaksi">
+                <h4 class="font-bold text-sm md:text-base">Dhika Aditia</h4>
+                <p class="text-[10px] text-green-500 font-mono mb-3">2503015018</p>
+                <p class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest font-semibold">Penyunting Bahasa</p>
+            </div>
+        </div>
+    </div>
+</main>
 
-    <script>
-        const fiturData = {
-            1: {
-                judul: "Pedagogi Realitas Terbaur (Dhika Aditia)",
-                isi: `<p>Teknologi ini memungkinkan mahasiswa kedokteran atau teknik untuk melakukan simulasi pada objek virtual dengan umpan balik taktil atau visual yang presisi di lingkungan fisik nyata.</p>
-                      <p>Implementasi kami menggunakan kacamata AR generasi terbaru yang mensinkronkan data sensor haptik dengan rendering 3D latensi rendah. Hasil riset kami menunjukkan peningkatan retensi pemahaman hingga 40% dibandingkan metode belajar konvensional berkat visualisasi spasial yang mendalam dan interaktif.</p>
-                      <p>Fitur ini juga mencakup mode kolaborasi di mana dua pengguna dapat membedah objek virtual yang sama dari lokasi berbeda, memungkinkan diskusi teknis yang lebih hidup.</p>`,
-                icon: "fa-vr-cardboard",
-                color: "#2563eb"
-            },
-            2: {
-                judul: "Umpan Balik Neural (Fares Maulidda)",
-                isi: `<p>Sistem ini menggunakan algoritma bioinformatika untuk mendeteksi kapan seorang mahasiswa mulai merasa jenuh atau terdistraksi berdasarkan pola gelombang otak Alpha dan Theta.</p>
-                      <p>Dengan integrasi perangkat wearable sensorik, aplikasi INOTEK akan secara otomatis menyesuaikan tempo penyajian konten atau menyarankan jeda kognitif guna menjaga kesehatan mental dan performa akademik mahasiswa tetap optimal.</p>
-                      <p>Kami percaya bahwa data saraf adalah kunci untuk personalisasi pendidikan yang sesungguhnya, di mana kurikulum dapat menyesuaikan diri dengan kapasitas fokus otak manusia dalam waktu nyata.</p>`,
-                icon: "fa-brain",
-                color: "#7c3aed"
-            }
-        };
+<!-- ============================= OVERLAY FITUR ============================= -->
+<div id="overlay-fitur" class="fixed inset-0 flex items-center justify-center px-4 md:px-6">
+    <div class="modal-inner bg-[#161b22] w-full max-w-2xl rounded-[32px] border border-white/10 overflow-hidden shadow-2xl">
+        <div id="modal-header" class="h-32 md:h-40 flex items-center justify-center relative bg-blue-600">
+            <button onclick="tutupOverlay()" class="absolute top-5 right-5 text-white/50 hover:text-white text-xl w-9 h-9 bg-white/10 rounded-full flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+            <i id="modal-icon" class="fas fa-star text-6xl md:text-7xl text-white/10"></i>
+        </div>
+        <div class="p-6 md:p-12">
+            <h3 id="modal-title" class="text-2xl md:text-3xl font-black mb-5">Judul Fitur</h3>
+            <div id="modal-content" class="text-slate-400 text-sm leading-relaxed space-y-4"></div>
+        </div>
+    </div>
+</div>
 
-        function pindahHalaman(id) {
-            document.querySelectorAll('.halaman-konten').forEach(hal => hal.classList.remove('halaman-aktif'));
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('aktif'));
-            
-            const target = document.getElementById(id);
-            if(target) {
-                target.classList.add('halaman-aktif');
-                window.scrollTo({top:0, behavior:'smooth'});
-            }
-            const navLink = document.querySelector(`[data-nav="${id}"]`);
-            if (navLink) navLink.classList.add('aktif');
+<footer class="py-12 md:py-20 text-center opacity-30 border-t border-white/5 mt-10">
+    <p class="text-[9px] font-bold tracking-[0.4em] uppercase">Edisi 01 • Tim INOTEK 2026 • Proyek UTS</p>
+</footer>
+
+<script>
+    /* ===== DATA ===== */
+    const fiturData = {
+        1: {
+            judul: "Pedagogi Realitas Terbaur (Dhika Aditia)",
+            isi: `<p>Teknologi ini memungkinkan mahasiswa kedokteran atau teknik untuk melakukan simulasi pada objek virtual dengan umpan balik taktil atau visual yang presisi di lingkungan fisik nyata.</p>
+                  <p>Implementasi kami menggunakan kacamata AR generasi terbaru yang mensinkronkan data sensor haptik dengan rendering 3D latensi rendah. Hasil riset kami menunjukkan peningkatan retensi pemahaman hingga 40% dibandingkan metode belajar konvensional.</p>
+                  <p>Fitur ini juga mencakup mode kolaborasi di mana dua pengguna dapat membedah objek virtual yang sama dari lokasi berbeda.</p>`,
+            icon: "fa-vr-cardboard", color: "#2563eb"
+        },
+        2: {
+            judul: "Umpan Balik Neural (Fares Maulidda)",
+            isi: `<p>Sistem ini menggunakan algoritma bioinformatika untuk mendeteksi kapan seorang mahasiswa mulai merasa jenuh atau terdistraksi berdasarkan pola gelombang otak Alpha dan Theta.</p>
+                  <p>Dengan integrasi perangkat wearable sensorik, aplikasi INOTEK akan secara otomatis menyesuaikan tempo penyajian konten atau menyarankan jeda kognitif.</p>
+                  <p>Kami percaya bahwa data saraf adalah kunci untuk personalisasi pendidikan yang sesungguhnya, di mana kurikulum dapat menyesuaikan diri dengan kapasitas fokus otak manusia secara real-time.</p>`,
+            icon: "fa-brain", color: "#7c3aed"
         }
+    };
 
-        function bukaOverlay(id) {
-            const data = fiturData[id];
-            const overlay = document.getElementById('overlay-fitur');
-            document.getElementById('modal-title').innerText = data.judul;
-            document.getElementById('modal-content').innerHTML = data.isi;
-            document.getElementById('modal-header').style.backgroundColor = data.color;
-            document.getElementById('modal-icon').className = `fas ${data.icon} text-7xl text-white/10`;
-            overlay.style.display = 'flex';
+    const searchData = [
+        { tag: "Kecerdasan Buatan", judul: "Kedaulatan Kognitif Mahasiswa", desc: "Strategi mempertahankan agensi manusia di era AI.", halaman: "artikel" },
+        { tag: "Desain Antarmuka", judul: "Psikologi Visual dalam Edukasi", desc: "Prinsip minimalisme informatif dalam media akademik.", halaman: "artikel" },
+        { tag: "Etika Data", judul: "Privasi di Tengah Transparansi Digital", desc: "Batas etis penggunaan data biometrik di kampus.", halaman: "artikel" },
+        { tag: "Visi Masa Depan", judul: "Konklusi Ekosistem Hibrida 2026", desc: "Transformasi kampus menjadi entitas hibrida.", halaman: "artikel" },
+        { tag: "Fitur Inti", judul: "Pedagogi Realitas Terbaur", desc: "Simulasi laboratorium 3D secara real-time.", halaman: "fitur" },
+        { tag: "Fitur Inti", judul: "Sistem Umpan Balik Neural", desc: "Monitoring gelombang otak Alpha dan Theta.", halaman: "fitur" },
+        { tag: "Editorial Khusus", judul: "Saat Mesin Menjadi Rekan Peneliti", desc: "AI sebagai co-author dalam publikasi ilmiah.", halaman: "rubrik" },
+        { tag: "Rekomendasi Tools", judul: "Notion AI, Zotero, Miro", desc: "Tool pilihan redaksi untuk produktivitas akademik.", halaman: "rubrik" },
+        { tag: "Catatan Redaksi", judul: "Editorial Edisi 01", desc: "Pesan chief editor Muhalif Noferi.", halaman: "editorial" },
+        { tag: "Dewan Redaksi", judul: "Tim INOTEK 2026", desc: "Fares, Omar, Dhika, Muhalif.", halaman: "tentang" },
+    ];
+
+    /* ===== NAVIGASI ===== */
+    function pindahHalaman(id) {
+        document.querySelectorAll('.halaman-konten').forEach(h => h.classList.remove('halaman-aktif'));
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('aktif'));
+        document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('aktif'));
+
+        const target = document.getElementById(id);
+        if (target) {
+            target.classList.add('halaman-aktif');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        document.querySelector(`[data-nav="${id}"]`)?.classList.add('aktif');
+        document.querySelector(`[data-bnav="${id}"]`)?.classList.add('aktif');
 
-        function tutupOverlay() {
-            document.getElementById('overlay-fitur').style.display = 'none';
+        if (id === 'search-panel') return;
+        tutupSearch();
+    }
+
+    /* ===== ARTIKEL PILLS ===== */
+    function scrollKeArtikel(idx, btn) {
+        document.querySelectorAll('.pill-btn').forEach(p => p.classList.remove('aktif'));
+        btn.classList.add('aktif');
+        const el = document.getElementById('art-' + idx);
+        if (el) {
+            const offset = el.getBoundingClientRect().top + window.scrollY - 110;
+            window.scrollTo({ top: offset, behavior: 'smooth' });
         }
+    }
 
-        function kirimOpini() {
-            const input = document.getElementById('opini-input');
-            const list = document.getElementById('opini-list');
-            if(input.value.trim() === "") return;
+    /* ===== OVERLAY ===== */
+    function bukaOverlay(id) {
+        const data = fiturData[id];
+        document.getElementById('modal-title').innerText = data.judul;
+        document.getElementById('modal-content').innerHTML = data.isi;
+        document.getElementById('modal-header').style.backgroundColor = data.color;
+        document.getElementById('modal-icon').className = `fas ${data.icon} text-6xl md:text-7xl text-white/10`;
+        document.getElementById('overlay-fitur').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    function tutupOverlay() {
+        document.getElementById('overlay-fitur').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    window.onclick = (e) => { if (e.target === document.getElementById('overlay-fitur')) tutupOverlay(); };
 
-            const div = document.createElement('div');
-            div.className = "bg-[#161b22] p-6 rounded-2xl border border-white/5 animate-pulse transition-all duration-500";
-            div.innerHTML = `<p class="text-sm text-slate-300 italic">"${input.value}"</p>
-                             <p class="text-[9px] text-slate-500 mt-4 font-bold uppercase tracking-widest">Pengunjung Baru • Hari Ini</p>`;
-            list.prepend(div);
-            input.value = "";
-            setTimeout(() => div.classList.remove('animate-pulse'), 1000);
+    /* ===== OPINI ===== */
+    function kirimOpini() {
+        const input = document.getElementById('opini-input');
+        const list = document.getElementById('opini-list');
+        if (!input.value.trim()) return;
+        const div = document.createElement('div');
+        div.className = "bg-[#161b22] p-5 rounded-2xl border border-white/5";
+        div.innerHTML = `<p class="text-sm text-slate-300 italic">"${input.value}"</p>
+                         <p class="text-[9px] text-slate-500 mt-3 font-bold uppercase tracking-widest">Pengunjung Baru • Hari Ini</p>`;
+        list.prepend(div);
+        input.value = "";
+        tampilkanToast("✓ Opini berhasil dikirim!");
+    }
+
+    /* ===== SEARCH ===== */
+    function toggleSearch() {
+        const panel = document.getElementById('search-panel');
+        const isOpen = panel.classList.contains('open');
+        if (isOpen) {
+            tutupSearch();
+        } else {
+            panel.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('search-input').focus(), 100);
         }
-
-        window.onclick = (e) => {
-            if(e.target == document.getElementById('overlay-fitur')) tutupOverlay();
+    }
+    function tutupSearch() {
+        document.getElementById('search-panel').classList.remove('open');
+        document.body.style.overflow = '';
+        document.getElementById('search-input').value = '';
+        document.getElementById('search-results').innerHTML = `<div class="search-empty"><i class="fas fa-search text-4xl mb-4 opacity-20"></i><p class="text-sm">Ketik untuk mencari konten di INOTEK 2026</p></div>`;
+    }
+    function jalankanSearch(query) {
+        const hasil = document.getElementById('search-results');
+        if (!query.trim()) {
+            hasil.innerHTML = `<div class="search-empty"><i class="fas fa-search text-4xl mb-4 opacity-20"></i><p class="text-sm">Ketik untuk mencari konten di INOTEK 2026</p></div>`;
+            return;
         }
-    </script>
+        const q = query.toLowerCase();
+        const filtered = searchData.filter(d => d.judul.toLowerCase().includes(q) || d.tag.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q));
+        if (!filtered.length) {
+            hasil.innerHTML = `<div class="search-empty"><i class="fas fa-times-circle text-4xl mb-4 opacity-20"></i><p class="text-sm">Tidak ada hasil untuk "<strong>${query}</strong>"</p></div>`;
+            return;
+        }
+        hasil.innerHTML = filtered.map(d => `
+            <div class="search-result-item" onclick="tutupSearch(); pindahHalaman('${d.halaman}')">
+                <p class="s-tag text-blue-400">${d.tag}</p>
+                <p class="s-judul">${d.judul}</p>
+                <p class="s-desc">${d.desc}</p>
+            </div>`).join('');
+    }
+
+    /* ===== THEME TOGGLE ===== */
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isDark = !document.body.classList.contains('light-mode');
+        const icon = isDark ? 'fa-sun' : 'fa-moon';
+        document.getElementById('theme-btn-desk').innerHTML = `<i class="fas ${icon}"></i>`;
+        document.getElementById('theme-btn-mob').innerHTML = `<i class="fas ${icon}"></i>`;
+        tampilkanToast(isDark ? "🌙 Mode Gelap aktif" : "☀️ Mode Terang aktif");
+    }
+
+    /* ===== BOOKMARK ===== */
+    const bookmarks = new Set();
+    function toggleBookmark(btn, judul) {
+        if (bookmarks.has(judul)) {
+            bookmarks.delete(judul);
+            btn.classList.remove('saved');
+            btn.innerHTML = '<i class="far fa-bookmark"></i> Simpan';
+            tampilkanToast("Artikel dihapus dari simpanan");
+        } else {
+            bookmarks.add(judul);
+            btn.classList.add('saved');
+            btn.innerHTML = '<i class="fas fa-bookmark"></i> Tersimpan';
+            tampilkanToast("✓ Artikel disimpan!");
+        }
+    }
+
+    /* ===== SHARE ===== */
+    function bagikanArtikel(judul) {
+        if (navigator.share) {
+            navigator.share({ title: `INOTEK 2026 — ${judul}`, text: `Baca artikel "${judul}" di INOTEK 2026`, url: window.location.href });
+        } else {
+            navigator.clipboard.writeText(window.location.href).then(() => tampilkanToast("🔗 Link disalin!"));
+        }
+    }
+
+    /* ===== TOAST ===== */
+    let toastTimer;
+    function tampilkanToast(pesan) {
+        const t = document.getElementById('toast');
+        t.textContent = pesan;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    /* ===== PROGRESS BAR + BACK TO TOP ===== */
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const prog = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        document.getElementById('progress-bar').style.width = prog + '%';
+
+        const btn = document.getElementById('back-to-top');
+        if (scrollTop > 300) btn.classList.add('visible');
+        else btn.classList.remove('visible');
+    });
+
+    /* ===== KEYBOARD ESC ===== */
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { tutupOverlay(); tutupSearch(); }
+    });
+</script>
 </body>
 </html>
