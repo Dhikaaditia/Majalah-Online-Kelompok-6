@@ -440,6 +440,21 @@
         }
         .edisi-breadcrumb:hover { background: rgba(37,99,235,0.15); }
         .edisi-breadcrumb.visible { display: inline-flex; }
+       #redaksi-btn{
+    display:none !important;
+}
+
+// mode developer
+window.addEventListener('DOMContentLoaded', () => {
+
+    const params = new URLSearchParams(window.location.search);
+
+    if(params.get('dev') === 'khira'){
+        document.getElementById('redaksi-btn')
+            .style.display = 'flex';
+    }
+
+});
     </style>
 </head>
 <body>
@@ -712,12 +727,6 @@
                 <p>Lebih jauh lagi, kita harus mampu memanfaatkan AI sebagai 'Exoskeleton Mental' — sebuah ekstensi yang memperkuat daya analisis tanpa menggantikan proses berpikir itu sendiri. Analogi ini penting: eksoskeleton memperkuat kaki manusia, bukan menggantikannya. Demikian pula, AI seharusnya memperkuat kapasitas intelektual mahasiswa, bukan mengambil alih proses pembelajaran yang paling esensial.</p>
                 <p>Melalui riset ini, saya menekankan pentingnya kurikulum <span class="glossary-term" data-term="Literasi AI">literasi AI</span> yang tidak hanya mengajarkan cara menggunakan alat, tetapi juga cara mengkritik algoritma tersebut. Kurikulum ideal harus mencakup pemahaman tentang cara kerja model, deteksi halusinasi AI, serta etika penggunaan dalam konteks akademik. Institusi pendidikan yang gagal mengintegrasikan literasi kritis ini ke dalam kurikulumnya berisiko menghasilkan generasi yang mahir mengoperasikan teknologi tetapi lemah dalam berpikir secara mandiri dan orisinal.</p>
             </div>
-            <div class="poll-box" id="p1-0">
-                <p class="poll-question">🗳️ Menurut Anda, apakah AI seharusnya diizinkan membantu penulisan tugas akhir mahasiswa?</p>
-                <button class="poll-option" onclick="vote1(0,0,this)"><span style="flex-shrink:0;width:20px;">✅</span><span style="flex:1;">Ya, selama penggunaannya transparan</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(0,1,this)"><span style="flex-shrink:0;width:20px;">🚫</span><span style="flex:1;">Tidak, dapat mengurangi integritas akademik</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(0,2,this)"><span style="flex-shrink:0;width:20px;">⚖️</span><span style="flex:1;">Bergantung pada kebijakan masing-masing kampus</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-            </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-blue-400 uppercase">Tinjauan: Dhika Aditia</p><p class="text-sm italic mt-2">"Perspektif yang sangat krusial bagi integritas akademik di masa depan."</p></div>
             <div class="blok-referensi">
                 <p class="ref-judul">Referensi</p>
@@ -760,12 +769,6 @@
                 <p>Penerapan psikologi <span class="glossary-term" data-term="Prinsip Gestalt">Gestalt</span> dalam tata letak digital membantu mengarahkan atensi pengguna pada poin-poin krusial melalui kontras dan ruang negatif. Hukum kedekatan (proximity) mengajarkan bahwa elemen-elemen yang saling berdekatan secara visual akan dipersepsikan sebagai kelompok informasi yang berkaitan. Hukum kesinambungan (continuity) membantu mata pembaca bergerak secara alami mengikuti alur konten tanpa terputus-putus.</p>
                 <p>Penelitian kami menunjukkan bahwa tata letak yang bersih, dengan kontras yang tepat dan ruang putih yang cukup, meningkatkan daya serap materi teknis hingga 35% dibandingkan tata letak yang padat. Temuan ini konsisten dengan teori beban kognitif Sweller, yang menyatakan bahwa memori kerja manusia sangat terbatas dan mudah kelebihan beban ketika harus memproses stimulus visual yang berlebihan secara bersamaan.</p>
                 <p>Visi saya adalah menciptakan standar baru dalam media akademik digital di mana teknologi antarmuka berperan aktif mempercepat pemahaman. Sebuah majalah digital bukan sekadar wadah statis bagi teks dan gambar — ia adalah medium interaktif yang harus responsif terhadap kebutuhan kognitif pembacanya. Masa depan desain edukasi terletak pada antarmuka yang adaptif, yang mampu menyesuaikan kompleksitas visualnya dengan kapasitas atensi pengguna secara real-time.</p>
-            </div>
-            <div class="poll-box" id="p1-1">
-                <p class="poll-question">🗳️ Seberapa penting desain antarmuka dalam sebuah platform pembelajaran digital?</p>
-                <button class="poll-option" onclick="vote1(1,0,this)"><span style="flex-shrink:0;width:20px;">🔥</span><span style="flex:1;">Sangat penting, memengaruhi pemahaman materi</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(1,1,this)"><span style="flex-shrink:0;width:20px;">📖</span><span style="flex:1;">Cukup penting, tapi konten lebih utama</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(1,2,this)"><span style="flex-shrink:0;width:20px;">💭</span><span style="flex:1;">Tidak terlalu penting selama konten berkualitas</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
             </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-purple-400 uppercase">Tinjauan: Muhalif Noferi</p><p class="text-sm italic mt-2">"Implementasi desain yang bersih sangat membantu proses pemahaman konten teknis."</p></div>
             <div class="blok-referensi">
@@ -810,12 +813,6 @@
                 <p>Regulasi seperti GDPR di Eropa memberikan kerangka hukum yang kuat, menetapkan bahwa pengumpulan data harus memiliki dasar hukum yang sah, tujuan yang jelas, dan proporsi yang sesuai. Indonesia, melalui UU Pelindungan Data Pribadi yang disahkan pada 2022, mulai membangun fondasi serupa. Namun regulasi saja tidak cukup — dibutuhkan budaya privasi yang tertanam dalam setiap lapisan institusi pendidikan.</p>
                 <p>Tujuan akhirnya adalah ekosistem digital yang aman dan adil, di mana inovasi teknologi berjalan selaras dengan perlindungan hak fundamental manusia. Mahasiswa bukan sekadar kumpulan data perilaku yang menunggu untuk dieksploitasi demi efisiensi institusional — mereka adalah individu berdaulat yang berhak atas privasi intelektual dan emosional mereka.</p>
             </div>
-            <div class="poll-box" id="p1-2">
-                <p class="poll-question">🗳️ Apakah kampus berhak memantau perilaku mahasiswa secara digital tanpa persetujuan eksplisit?</p>
-                <button class="poll-option" onclick="vote1(2,0,this)"><span style="flex-shrink:0;width:20px;">✅</span><span style="flex:1;">Ya, demi keamanan dan kualitas akademik</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(2,1,this)"><span style="flex-shrink:0;width:20px;">🚫</span><span style="flex:1;">Tidak, privasi adalah hak fundamental</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(2,2,this)"><span style="flex-shrink:0;width:20px;">⚖️</span><span style="flex:1;">Boleh, dengan syarat transparansi penuh</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-            </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-green-400 uppercase">Tinjauan: Fares Maulidda</p><p class="text-sm italic mt-2">"Pengingat penting bagi kita semua bahwa data adalah cerminan identitas diri."</p></div>
             <div class="blok-referensi">
                 <p class="ref-judul">Referensi</p>
@@ -859,12 +856,6 @@
                 <p>Inklusivitas adalah syarat moral dari ekosistem hibrida yang sejati. Sebuah sistem yang hanya dapat diakses oleh mereka yang memiliki perangkat canggih dan koneksi internet stabil bukanlah ekosistem hibrida — ia adalah ekosistem eksklusif yang memperlebar jurang kesenjangan pendidikan yang sudah ada.</p>
                 <p>Kesimpulan dari edisi ini menegaskan bahwa teknologi hanyalah <em>enabler</em> — sebuah katalis yang memungkinkan potensi manusia berkembang lebih cepat. Namun semangat kritis, kemampuan berkolaborasi, dan kapasitas untuk berempati satu sama lain tetap menjadi motor penggerak utama kemajuan peradaban ilmiah kita. Mesin bisa mengolah data, tetapi hanya manusia yang bisa memaknainya.</p>
             </div>
-            <div class="poll-box" id="p1-3">
-                <p class="poll-question">🗳️ Apakah interaksi tatap muka masih relevan di era kampus hibrida?</p>
-                <button class="poll-option" onclick="vote1(3,0,this)"><span style="flex-shrink:0;width:20px;">🤝</span><span style="flex:1;">Ya, interaksi manusia tidak tergantikan</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(3,1,this)"><span style="flex-shrink:0;width:20px;">💻</span><span style="flex:1;">Tidak, pembelajaran digital sudah cukup efektif</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote1(3,2,this)"><span style="flex-shrink:0;width:20px;">🔄</span><span style="flex:1;">Kombinasi keduanya adalah solusi terbaik</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-            </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-yellow-400 uppercase">Tinjauan: Omar Thareq</p><p class="text-sm italic mt-2">"Sebuah rangkuman yang sangat komprehensif untuk menutup perjalanan edisi pertama ini."</p></div>
             <div class="blok-referensi">
                 <p class="ref-judul">Referensi</p>
@@ -881,7 +872,12 @@
         <section class="mt-12 mb-8" id="seksi-komentar1">
             <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                 <h3 class="text-xl font-bold">💬 Komentar Pembaca <span class="komen-count-badge" id="komen-badge-1">0</span></h3>
-                <button class="redaksi-toggle" id="redaksi-toggle-1" onclick="toggleModeRedaksi(1)"><i class="fas fa-shield-halved"></i> Mode Redaksi</button>
+                <button class="redaksi-toggle"
+        id="redaksi-btn"
+        onclick="toggleModeRedaksi(1)"
+        style="display:none;">
+    <i class="fas fa-shield-halved"></i> Mode Redaksi
+</button>
             </div>
             <div class="redaksi-mode-bar" id="redaksi-bar-1"><i class="fas fa-shield-halved"></i><span><strong>Mode Redaksi Aktif</strong></span><button onclick="toggleModeRedaksi(1)" style="margin-left:auto;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;border-radius:6px;padding:2px 8px;font-size:0.62rem;font-weight:800;cursor:pointer;text-transform:uppercase;">Keluar</button></div>
             <div id="redaksi-pwd-box-1" style="display:none;" class="bg-red-900/20 border border-red-500/30 rounded-2xl p-5 mb-5">
@@ -1079,12 +1075,6 @@
                 <p>Tantangan utamanya adalah konsistensi. Survei yang saya lakukan terhadap 80 mahasiswa menunjukkan bahwa 74% pernah mengunduh aplikasi produktivitas, namun hanya 31% yang masih menggunakannya secara aktif setelah tiga minggu. Fenomena ini — yang saya sebut sebagai <em>productivity app fatigue</em> — menunjukkan bahwa teknologi saja tidak cukup. Dibutuhkan perubahan mindset mendasar: disiplin digital harus dipandang sebagai otot yang dilatih secara bertahap, bukan sebagai solusi instan.</p>
                 <p>Kesimpulannya, manajemen waktu digital yang efektif adalah kombinasi antara pemilihan alat yang tepat, desain lingkungan yang mendukung, dan komitmen pada ritme belajar yang konsisten. Mahasiswa yang berhasil menguasai ketiga elemen ini tidak hanya menjadi lebih produktif — mereka mengembangkan kapasitas regulasi diri yang akan menjadi aset berharga sepanjang karier akademik dan profesional mereka.</p>
             </div>
-            <div class="poll-box" id="p2-0">
-                <p class="poll-question">🗳️ Apakah Anda secara aktif menggunakan aplikasi produktivitas digital untuk mengatur jadwal belajar?</p>
-                <button class="poll-option" onclick="vote2(0,0,this)"><span style="flex-shrink:0;width:20px;">✅</span><span style="flex:1;">Ya, setiap hari dan sangat membantu</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(0,1,this)"><span style="flex-shrink:0;width:20px;">⚡</span><span style="flex:1;">Kadang-kadang, tapi tidak konsisten</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(0,2,this)"><span style="flex-shrink:0;width:20px;">📓</span><span style="flex:1;">Tidak, lebih suka catatan manual</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-            </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-blue-400 uppercase">Tinjauan: Omar Thareq</p><p class="text-sm italic mt-2">"Konsep productivity app fatigue menggambarkan realitas yang dialami hampir semua mahasiswa."</p></div>
             <div class="blok-referensi">
                 <p class="ref-judul">Referensi</p>
@@ -1127,12 +1117,6 @@
                 <p>Namun gamifikasi bukan tanpa risiko. Jika dirancang dengan buruk, ia dapat menciptakan motivasi ekstrinsik yang dangkal: mahasiswa belajar demi poin, bukan demi pemahaman. Penelitian Deci & Ryan (2000) tentang <em>Self-Determination Theory</em> menegaskan bahwa motivasi ekstrinsik yang berlebihan justru dapat mengikis motivasi intrinsik jangka panjang.</p>
                 <p>Dalam praktiknya, pendekatan yang saya rekomendasikan adalah gamifikasi berbasis penguasaan (<em>mastery-based gamification</em>): mahasiswa tidak bersaing satu sama lain dalam papan peringkat global, melainkan bersaing melawan catatan terbaik mereka sendiri. Pendekatan ini menghilangkan kecemasan kompetitif sambil tetap mempertahankan dorongan motivasional dari sistem progres yang tervisualisasi.</p>
                 <p>Kesimpulannya, gamifikasi yang dirancang dengan cermat dan berakar pada prinsip psikologi motivasi adalah alat yang sangat efektif untuk meningkatkan disiplin dan konsistensi belajar mahasiswa. Ketika bermain dan belajar tidak lagi terasa seperti dua kutub yang berlawanan, itulah tanda bahwa desain pedagogis telah mencapai puncak optimalnya.</p>
-            </div>
-            <div class="poll-box" id="p2-1">
-                <p class="poll-question">🗳️ Apakah fitur gamifikasi seperti poin dan lencana membuat Anda lebih termotivasi belajar?</p>
-                <button class="poll-option" onclick="vote2(1,0,this)"><span style="flex-shrink:0;width:20px;">🔥</span><span style="flex:1;">Ya, sangat memotivasi saya</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(1,1,this)"><span style="flex-shrink:0;width:20px;">🤔</span><span style="flex:1;">Tergantung pada kualitas kontennya</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(1,2,this)"><span style="flex-shrink:0;width:20px;">📚</span><span style="flex:1;">Tidak, saya lebih suka belajar klasik</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
             </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-purple-400 uppercase">Tinjauan: Muhalif Noferi</p><p class="text-sm italic mt-2">"Pembahasan mastery-based gamification membuka perspektif baru tentang bagaimana kompetisi seharusnya dirancang."</p></div>
             <div class="blok-referensi">
@@ -1177,12 +1161,6 @@
                 <p>Tantangan terbesar dalam kolaborasi virtual adalah mengelola <span class="glossary-term" data-term="Meeting Fatigue">kelelahan rapat virtual</span>. Solusinya bukan mengeliminasi pertemuan virtual, melainkan mendesainnya dengan lebih ketat: durasi maksimal 45 menit, agenda yang jelas sebelum rapat dimulai, dan kesepakatan bahwa komunikasi asinkron adalah mode default.</p>
                 <p>Platform kolaborasi virtual, ketika digunakan dengan strategi yang tepat, adalah infrastruktur disiplin kelompok yang paling demokratis yang pernah kita miliki. Ia meratakan lapangan bermain antara mahasiswa yang bisa hadir secara fisik dan yang tidak — inilah masa depan kerja akademik yang inklusif.</p>
             </div>
-            <div class="poll-box" id="p2-2">
-                <p class="poll-question">🗳️ Platform kolaborasi mana yang paling membantu produktivitas kelompok belajar Anda?</p>
-                <button class="poll-option" onclick="vote2(2,0,this)"><span style="flex-shrink:0;width:20px;">📋</span><span style="flex:1;">Notion / Google Docs — untuk dokumentasi</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(2,1,this)"><span style="flex-shrink:0;width:20px;">💬</span><span style="flex:1;">WhatsApp / Telegram — sudah cukup efektif</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(2,2,this)"><span style="flex-shrink:0;width:20px;">🎥</span><span style="flex:1;">Google Meet / Zoom — tatap muka virtual</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-            </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-green-400 uppercase">Tinjauan: Fares Maulidda</p><p class="text-sm italic mt-2">"Konsep digital team contract adalah sesuatu yang seharusnya diajarkan di setiap mata kuliah kerja kelompok."</p></div>
             <div class="blok-referensi">
                 <p class="ref-judul">Referensi</p>
@@ -1225,12 +1203,6 @@
                 <p>Konsep <span class="glossary-term" data-term="Screen Time Management">screen time management</span> yang dipopulerkan oleh fitur bawaan iOS dan Android kini berkembang menjadi praktik yang lebih holistik. Aplikasi seperti Digital Wellbeing (Google) dan Screen Time (Apple) tidak hanya melacak durasi penggunaan, tetapi juga memberikan laporan mendalam tentang pola penggunaan yang memungkinkan mahasiswa mengidentifikasi "pencuri waktu" terbesar dalam rutinitas digital mereka.</p>
                 <p>Sebagai penutup dari edisi kedua ini, saya ingin menegaskan bahwa produktivitas sejati bukan tentang mengisi setiap celah waktu dengan aktivitas bertarget. Ia tentang membangun kapasitas — fisik, mental, dan emosional — untuk berkarya secara konsisten dan berkualitas dalam jangka panjang.</p>
                 <p>Teknologi digital adalah aset yang luar biasa ketika kita yang mengendalikannya. Namun ketika ia mulai mengendalikan kita — mengatur ritme tidur, menentukan suasana hati, dan mendefinisikan nilai diri kita — ia berubah menjadi beban. Digital wellness adalah pekerjaan aktif dan berkelanjutan untuk memastikan keseimbangan itu selalu berada di tangan kita sebagai manusia berdaulat atas kehidupan digitalnya sendiri.</p>
-            </div>
-            <div class="poll-box" id="p2-3">
-                <p class="poll-question">🗳️ Apakah teknologi digital lebih banyak membantu atau menghambat produktivitas belajar Anda?</p>
-                <button class="poll-option" onclick="vote2(3,0,this)"><span style="flex-shrink:0;width:20px;">🚀</span><span style="flex:1;">Sangat membantu, jika digunakan dengan tepat</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(3,1,this)"><span style="flex-shrink:0;width:20px;">⚖️</span><span style="flex:1;">Seimbang, tergantung kondisi dan disiplin pribadi</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
-                <button class="poll-option" onclick="vote2(3,2,this)"><span style="flex-shrink:0;width:20px;">⚠️</span><span style="flex:1;">Lebih banyak menghambat karena distraksi</span><div class="poll-bar-wrap"><div class="poll-bar"></div></div><span class="poll-pct">0%</span></button>
             </div>
             <div class="panel-tinjauan"><p class="text-xs font-bold text-yellow-400 uppercase">Tinjauan: Dhika Aditia</p><p class="text-sm italic mt-2">"Lelah bukan tanda keberhasilan, melainkan sinyal bahaya."</p></div>
             <div class="blok-referensi">
@@ -1408,6 +1380,7 @@
 <footer class="py-12 md:py-20 text-center opacity-30 border-t border-white/5 mt-10" style="position:relative;z-index:1;">
     <p class="text-[9px] font-bold tracking-[0.4em] uppercase">Edisi 01–02 • Tim INOTEK 2026 • Proyek UTS</p>
 
+    
 </footer>
 
 <script>
@@ -1472,6 +1445,25 @@ function pindahHalaman(id) {
         document.querySelector(`[data-bnav2="${id}"]`)?.classList.add('aktif');
         document.getElementById('nav-vol-label').textContent='Vol. 02';
     }
+    else if(id === 'tentang'){
+    // tetap tampilkan navbar sesuai edisi terakhir
+    if(currentEdisi === 1){
+        navE1.style.removeProperty('display');
+        bnavE1.style.cssText='display:block!important';
+
+        document.querySelectorAll('[data-bnav1]').forEach(b=>b.classList.remove('aktif'));
+        document.querySelector('[data-bnav1="tentang"]')?.classList.add('aktif');
+    } else {
+        navE2.style.removeProperty('display');
+        bnavE2.style.cssText='display:block!important';
+
+        document.querySelectorAll('[data-bnav2]').forEach(b=>b.classList.remove('aktif'));
+        document.querySelector('[data-bnav2="tentang"]')?.classList.add('aktif');
+    }
+
+    document.getElementById('nav-vol-label').textContent =
+        currentEdisi === 1 ? 'Vol. 01' : 'Vol. 02';
+}
     tutupSearch();
     updateTracker();
 }
@@ -1595,14 +1587,121 @@ function verifikasiRedaksi(e){const pwd=document.getElementById('redaksi-pwd-'+e
 // Init komentar
 [1,2].forEach(e=>{renderKomentar(e);updatePendingBadge(e);});
 
-/* ===== FOTO MODAL ===== */
-function bukaFotoModal(src,nama,peran,e){
-    const overlay=document.getElementById('foto-modal-overlay');
-    document.getElementById('foto-modal-img').src=src;document.getElementById('foto-modal-img').alt=nama;
-    document.getElementById('foto-modal-nama').textContent=nama;document.getElementById('foto-modal-peran').textContent=peran;
-    overlay.classList.add('open');document.body.style.overflow='hidden';
+/* ===== DATA TIM ===== */        
+const timData = {
+    muhalif: {
+        nama: 'Muhalif Noferi',
+        nim: '2503015043',
+        peran: 'Chief Editor',
+        avatar: 'M',
+        gradient: 'linear-gradient(135deg,#78350f,#d97706)',
+        warna: '#d97706',
+        kontribusi: [
+            {ikon:'👑', tag:'Chief Editor', teks:'Memimpin seluruh proses editorial dan memastikan konsistensi visi INOTEK 2026 di kedua edisi.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 01', teks:'Menulis artikel "Konklusi Ekosistem Hibrida 2026" sebagai penutup edisi perdana.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 02', teks:'Menulis artikel "Digital Wellness: Produktif Tanpa Kehilangan Diri Sendiri".'},
+            {ikon:'🔍', tag:'Peer Reviewer', teks:'Melakukan review editorial terhadap artikel Omar Thareq di kedua edisi.'},
+            {ikon:'📝', tag:'Editorial', teks:'Menyusun catatan redaksi untuk Edisi 01 dan Edisi 02.'},
+        ]
+    },
+    fares: {
+        nama: 'Fares Maulidda Magruf',
+        nim: '2503015015',
+        peran: 'Ketua Redaksi & Penulis Utama',
+        avatar: 'F',
+        gradient: 'linear-gradient(135deg,#1e3a8a,#2563eb)',
+        warna: '#60a5fa',
+        kontribusi: [
+            {ikon:'🎯', tag:'Ketua Redaksi', teks:'Mengkoordinasikan alur kerja tim dan memastikan tenggat waktu penyelesaian setiap artikel terpenuhi.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 01', teks:'Menulis artikel "Kedaulatan Kognitif Mahasiswa" tentang etika penggunaan AI dalam akademik.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 02', teks:'Menulis artikel "Manajemen Waktu Digital" tentang produktivitas di era notifikasi.'},
+            {ikon:'🔬', tag:'Fitur Inti', teks:'Mengembangkan riset "Sistem Umpan Balik Neural" (E1) dan "Sistem Pelacak Fokus Adaptif" (E2).'},
+            {ikon:'🔍', tag:'Peer Reviewer', teks:'Mereview dan memvalidasi artikel Dhika Aditia di kedua edisi.'},
+        ]
+    },
+    omar: {
+        nama: 'Omar Thareq',
+        nim: '2503015049',
+        peran: 'Design & Isi Redaksi',
+        avatar: 'O',
+        gradient: 'linear-gradient(135deg,#4c1d95,#7c3aed)',
+        warna: '#a78bfa',
+        kontribusi: [
+            {ikon:'🎨', tag:'Desainer Utama', teks:'Merancang seluruh identitas visual INOTEK 2026 — tipografi, sistem warna, dan tata letak.'},
+            {ikon:'💻', tag:'Pengembang Antarmuka', teks:'Membangun antarmuka majalah digital dengan prinsip minimalisme informatif.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 01', teks:'Menulis artikel "Psikologi Visual dalam Edukasi" tentang prinsip Gestalt dalam desain.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 02', teks:'Menulis artikel "Gamifikasi: Ketika Belajar Terasa Seperti Bermain".'},
+            {ikon:'🔍', tag:'Peer Reviewer', teks:'Mereview artikel Muhalif Noferi di kedua edisi dari sudut pandang konsistensi narasi.'},
+        ]
+    },
+    dhika: {
+        nama: 'Dhika Aditia',
+        nim: '2503015018',
+        peran: 'Penyunting Bahasa & Anggota Redaksi',
+        avatar: 'D',
+        gradient: 'linear-gradient(135deg,#064e3b,#059669)',
+        warna: '#34d399',
+        kontribusi: [
+            {ikon:'📝', tag:'Penyunting Bahasa', teks:'Melakukan penyuntingan bahasa menyeluruh di semua artikel kedua edisi.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 01', teks:'Menulis artikel "Privasi di Tengah Transparansi Digital" tentang etika data biometrik.'},
+            {ikon:'✍️', tag:'Penulis — Edisi 02', teks:'Menulis artikel "Platform Kolaborasi Virtual" tentang fondasi kerja kelompok digital.'},
+            {ikon:'🔬', tag:'Fitur Inti', teks:'Mengembangkan riset "Pedagogi Realitas Terbaur" (E1) dan "Ruang Belajar Kolaboratif Cerdas" (E2).'},
+            {ikon:'🔍', tag:'Peer Reviewer', teks:'Mereview artikel Fares Maulidda di kedua edisi dari perspektif keamanan siber.'},
+        ]
+    }
+};
+
+function bukaTimModal(id) {
+    const d = timData[id];
+    if (!d) return;
+    document.getElementById('tim-modal-avatar').style.background = d.gradient;
+    document.getElementById('tim-modal-avatar').textContent = d.avatar;
+    document.getElementById('tim-modal-nama').textContent = d.nama;
+    document.getElementById('tim-modal-nim').textContent = d.nim;
+    document.getElementById('tim-modal-nim').style.color = '#64748b';
+    document.getElementById('tim-modal-peran').textContent = d.peran;
+    document.getElementById('tim-modal-peran').style.color = d.warna;
+    document.getElementById('tim-modal-kontribusi').innerHTML = d.kontribusi.map(k => `
+        <div class="kontribusi-item">
+            <div class="k-icon" style="background:rgba(255,255,255,0.05);">${k.ikon}</div>
+            <div class="k-text">
+                <span class="k-tag" style="color:${d.warna};">${k.tag}</span>
+                ${k.teks}
+            </div>
+        </div>
+    `).join('');
+    document.getElementById('tim-modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
 }
-function tutupFotoModal(){document.getElementById('foto-modal-overlay').classList.remove('open');document.body.style.overflow='';}
+
+function tutupTimModal() {
+    document.getElementById('tim-modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+/* ===== FOTO MODAL ===== */
+function bukaFotoModal(src, nama, peran, id, e){
+    const overlay = document.getElementById('foto-modal-overlay');
+
+    document.getElementById('foto-modal-img').src = src;
+    document.getElementById('foto-modal-img').alt = nama;
+    document.getElementById('foto-modal-nama').textContent = nama;
+    document.getElementById('foto-modal-peran').textContent = peran;
+
+    // tombol kontribusi
+    document.getElementById('foto-modal-detail-btn').onclick = () => {
+        tutupFotoModal();
+        bukaTimModal(id);
+    };
+
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function tutupFotoModal(){
+    document.getElementById('foto-modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
 
 /* ===== SEARCH ===== */
 const allSearchData=[
