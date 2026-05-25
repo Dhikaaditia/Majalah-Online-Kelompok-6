@@ -444,17 +444,6 @@
     display:none !important;
 }
 
-// mode developer
-window.addEventListener('DOMContentLoaded', () => {
-
-    const params = new URLSearchParams(window.location.search);
-
-    if(params.get('dev') === 'khira'){
-        document.getElementById('redaksi-btn')
-            .style.display = 'flex';
-    }
-
-});
     </style>
 </head>
 <body>
@@ -1581,8 +1570,43 @@ function kirimKomentar(e){const nama=document.getElementById('komen-nama-'+e).va
 function approveKomentar(e,i){if(!modeRedaksi[e])return;const k=pendingStore[e][i];if(!k.replies)k.replies=[];komenStore[e].unshift(k);pendingStore[e].splice(i,1);saveKomentar(e);savePending(e);renderKomentar(e);renderPending(e);tampilkanToast('✅ Komentar disetujui!');}
 function rejectKomentar(e,i){if(!modeRedaksi[e])return;pendingStore[e].splice(i,1);savePending(e);renderPending(e);tampilkanToast('🗑️ Komentar ditolak.');}
 
-function toggleModeRedaksi(e){const box=document.getElementById('redaksi-pwd-box-'+e);if(modeRedaksi[e]){modeRedaksi[e]=false;document.getElementById('redaksi-toggle-'+e).classList.remove('aktif');document.getElementById('moderasi-'+e).classList.remove('open');document.getElementById('redaksi-bar-'+e).classList.remove('visible');box.style.display='none';tampilkanToast('Mode redaksi dinonaktifkan');renderKomentar(e);}else{box.style.display=box.style.display==='none'?'block':'none';}}
-function verifikasiRedaksi(e){const pwd=document.getElementById('redaksi-pwd-'+e).value;if(pwd===REDAKSI_PWD){modeRedaksi[e]=true;document.getElementById('redaksi-toggle-'+e).classList.add('aktif');document.getElementById('redaksi-pwd-box-'+e).style.display='none';document.getElementById('redaksi-pwd-'+e).value='';document.getElementById('moderasi-'+e).classList.add('open');document.getElementById('redaksi-bar-'+e).classList.add('visible');renderKomentar(e);renderPending(e);tampilkanToast('✅ Mode Redaksi aktif');}else{tampilkanToast('❌ Password salah');}}
+function getRedaksiBtn(e){
+    return document.getElementById(e===1 ? 'redaksi-btn' : 'redaksi-toggle-'+e);
+}
+
+function toggleModeRedaksi(e){
+    const box=document.getElementById('redaksi-pwd-box-'+e);
+    const btn=getRedaksiBtn(e);
+    if(modeRedaksi[e]){
+        modeRedaksi[e]=false;
+        if(btn)btn.classList.remove('aktif');
+        document.getElementById('moderasi-'+e).classList.remove('open');
+        document.getElementById('redaksi-bar-'+e).classList.remove('visible');
+        box.style.display='none';
+        tampilkanToast('Mode redaksi dinonaktifkan');
+        renderKomentar(e);
+    }else{
+        box.style.display=box.style.display==='none'?'block':'none';
+    }
+}
+
+function verifikasiRedaksi(e){
+    const pwd=document.getElementById('redaksi-pwd-'+e).value;
+    const btn=getRedaksiBtn(e);
+    if(pwd===REDAKSI_PWD){
+        modeRedaksi[e]=true;
+        if(btn)btn.classList.add('aktif');
+        document.getElementById('redaksi-pwd-box-'+e).style.display='none';
+        document.getElementById('redaksi-pwd-'+e).value='';
+        document.getElementById('moderasi-'+e).classList.add('open');
+        document.getElementById('redaksi-bar-'+e).classList.add('visible');
+        renderKomentar(e);
+        renderPending(e);
+        tampilkanToast('✅ Mode Redaksi aktif');
+    }else{
+        tampilkanToast('❌ Password salah');
+    }
+}
 
 // Init komentar
 [1,2].forEach(e=>{renderKomentar(e);updatePendingBadge(e);});
@@ -1794,6 +1818,18 @@ function renderPoll(pollIdx) {
     });
 }
 [0,1,2,3].forEach(renderPoll);
+
+/* ===== MODE DEVELOPER ===== */
+window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('dev') === 'khira') {
+        const btn1 = document.getElementById('redaksi-btn');
+        if (btn1) btn1.style.setProperty('display', 'flex', 'important');
+
+        const btn2 = document.getElementById('redaksi-toggle-2');
+        if (btn2) btn2.style.setProperty('display', 'flex', 'important');
+    }
+});
 
 /* ===== SHARE SNIPPET ===== */
 let selectedText = '';
