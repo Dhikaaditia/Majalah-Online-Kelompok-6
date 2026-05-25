@@ -677,6 +677,54 @@
     <div class="artikel-container max-w-3xl mx-auto px-5 md:px-6">
         <button class="edisi-breadcrumb visible mb-4" onclick="pindahHalaman('landing')"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Edisi</button>
         <div class="text-xs font-mono text-slate-500 mb-4 uppercase tracking-widest">Vol. 01 — Manusia & Mesin</div>
+        <!-- TABLE OF CONTENTS EDISI 1 -->
+<div class="toc-box" id="toc-1">
+    <div class="toc-header">
+        <i class="fas fa-list-ul"></i>
+        <span>Daftar Isi Edisi 01</span>
+        <button onclick="toggleTOC('toc-body-1')" id="toc-toggle-1" class="toc-toggle-btn">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+    </div>
+    <div id="toc-body-1">
+        <a class="toc-item" onclick="scrollKeArtikel1(0, document.querySelector('#artikel1 .pill-btn'))">
+            <span class="toc-num">01</span>
+            <div class="toc-info">
+                <span class="toc-tag">Kecerdasan Buatan</span>
+                <span class="toc-judul">Kedaulatan Kognitif Mahasiswa</span>
+                <span class="toc-penulis">Fares Maulidda</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 4 mnt</span>
+        </a>
+        <a class="toc-item" onclick="scrollKeArtikel1(1, document.querySelectorAll('#artikel1 .pill-btn')[1])">
+            <span class="toc-num">02</span>
+            <div class="toc-info">
+                <span class="toc-tag">Desain Antarmuka</span>
+                <span class="toc-judul">Psikologi Visual dalam Edukasi</span>
+                <span class="toc-penulis">Omar Thareq</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 3 mnt</span>
+        </a>
+        <a class="toc-item" onclick="scrollKeArtikel1(2, document.querySelectorAll('#artikel1 .pill-btn')[2])">
+            <span class="toc-num">03</span>
+            <div class="toc-info">
+                <span class="toc-tag">Etika Data</span>
+                <span class="toc-judul">Privasi di Tengah Transparansi Digital</span>
+                <span class="toc-penulis">Dhika Aditia</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 4 mnt</span>
+        </a>
+        <a class="toc-item" onclick="scrollKeArtikel1(3, document.querySelectorAll('#artikel1 .pill-btn')[3])">
+            <span class="toc-num">04</span>
+            <div class="toc-info">
+                <span class="toc-tag">Visi Masa Depan</span>
+                <span class="toc-judul">Konklusi Ekosistem Hibrida 2026</span>
+                <span class="toc-penulis">Muhalif Noferi</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 3 mnt</span>
+        </a>
+    </div>
+</div>
     </div>
     <div class="artikel-pills sticky top-14 md:top-20 z-10 bg-[var(--latar-dalam)] pt-3">
         <button class="pill-btn aktif" onclick="scrollKeArtikel1(0, this)">Fares</button>
@@ -1025,6 +1073,54 @@
     <div class="artikel-container max-w-3xl mx-auto px-5 md:px-6">
         <button class="edisi-breadcrumb visible mb-4" onclick="pindahHalaman('landing')"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Edisi</button>
         <div class="text-xs font-mono text-slate-500 mb-4 uppercase tracking-widest">Vol. 02 — Disiplin & Produktivitas</div>
+        <!-- TABLE OF CONTENTS EDISI 2 -->
+<div class="toc-box" id="toc-2">
+    <div class="toc-header">
+        <i class="fas fa-list-ul"></i>
+        <span>Daftar Isi Edisi 02</span>
+        <button onclick="toggleTOC('toc-body-2')" id="toc-toggle-2" class="toc-toggle-btn">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+    </div>
+    <div id="toc-body-2">
+        <a class="toc-item" onclick="scrollKeArtikel2(0, document.querySelector('#artikel2 .pill-btn'))">
+            <span class="toc-num">01</span>
+            <div class="toc-info">
+                <span class="toc-tag">Manajemen Waktu</span>
+                <span class="toc-judul">Manajemen Waktu Digital</span>
+                <span class="toc-penulis">Fares Maulidda</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 4 mnt</span>
+        </a>
+        <a class="toc-item" onclick="scrollKeArtikel2(1, document.querySelectorAll('#artikel2 .pill-btn')[1])">
+            <span class="toc-num">02</span>
+            <div class="toc-info">
+                <span class="toc-tag">Gamifikasi Belajar</span>
+                <span class="toc-judul">Gamifikasi: Ketika Belajar Terasa Seperti Bermain</span>
+                <span class="toc-penulis">Omar Thareq</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 3 mnt</span>
+        </a>
+        <a class="toc-item" onclick="scrollKeArtikel2(2, document.querySelectorAll('#artikel2 .pill-btn')[2])">
+            <span class="toc-num">03</span>
+            <div class="toc-info">
+                <span class="toc-tag">Kolaborasi Digital</span>
+                <span class="toc-judul">Platform Kolaborasi Virtual</span>
+                <span class="toc-penulis">Dhika Aditia</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 4 mnt</span>
+        </a>
+        <a class="toc-item" onclick="scrollKeArtikel2(3, document.querySelectorAll('#artikel2 .pill-btn')[3])">
+            <span class="toc-num">04</span>
+            <div class="toc-info">
+                <span class="toc-tag">Digital Wellness</span>
+                <span class="toc-judul">Digital Wellness: Produktif Tanpa Kehilangan Diri</span>
+                <span class="toc-penulis">Muhalif Noferi</span>
+            </div>
+            <span class="toc-time"><i class="fas fa-clock"></i> 4 mnt</span>
+        </a>
+    </div>
+</div>
     </div>
     <div class="artikel-pills sticky top-14 md:top-20 z-10 bg-[var(--latar-dalam)] pt-3">
         <button class="pill-btn aktif" onclick="scrollKeArtikel2(0, this)">Fares</button>
@@ -1209,8 +1305,7 @@
         <section class="mt-12 mb-8" id="seksi-komentar2">
             <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                 <h3 class="text-xl font-bold">💬 Komentar Pembaca <span class="komen-count-badge" id="komen-badge-2">0</span></h3>
-                <button class="redaksi-toggle" id="redaksi-toggle-2" onclick="toggleModeRedaksi(2)"><i class="fas fa-shield-halved"></i> Mode Redaksi</button>
-            </div>
+<button class="redaksi-toggle" id="redaksi-toggle-2" onclick="toggleModeRedaksi(2)" style="display:none;"><i class="fas fa-shield-halved"></i> Mode Redaksi</button>            </div>
             <div class="redaksi-mode-bar" id="redaksi-bar-2"><i class="fas fa-shield-halved"></i><span><strong>Mode Redaksi Aktif</strong></span><button onclick="toggleModeRedaksi(2)" style="margin-left:auto;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;border-radius:6px;padding:2px 8px;font-size:0.62rem;font-weight:800;cursor:pointer;text-transform:uppercase;">Keluar</button></div>
             <div id="redaksi-pwd-box-2" style="display:none;" class="bg-red-900/20 border border-red-500/30 rounded-2xl p-5 mb-5">
                 <p class="text-xs text-red-400 font-bold uppercase tracking-widest mb-3">Verifikasi Redaksi</p>
@@ -1822,7 +1917,7 @@ function renderPoll(pollIdx) {
 /* ===== MODE DEVELOPER ===== */
 window.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('dev') === 'khira') {
+    if (params.get('dev') === 'FMOD') {
         const btn1 = document.getElementById('redaksi-btn');
         if (btn1) btn1.style.setProperty('display', 'flex', 'important');
 
